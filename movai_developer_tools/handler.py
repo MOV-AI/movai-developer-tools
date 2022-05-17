@@ -2,8 +2,8 @@
 import argparse
 import sys
 
-import movai_tools.utils.logger as logging
-from movai_tools.setup_ros.operation_executer import SetupRos
+import movai_developer_tools.utils.logger as logging
+from movai_developer_tools.setup_ros.operation_executer import SetupRos
 
 executors = {
     "setup-ros": SetupRos,

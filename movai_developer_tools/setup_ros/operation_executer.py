@@ -1,5 +1,5 @@
 """Module where all the behaviour of a command should be destributed."""
-import movai_tools.utils.logger as logging
+import movai_developer_tools.utils.logger as logging
 
 # TEMPLATE-CHANGE-ME: Adapt the executer to your context
 

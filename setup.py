@@ -16,5 +16,7 @@ setuptools.setup(
     include_package_data=True,
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=[],
-    entry_points={"console_scripts": ["movai-tools = movai_tools.handler:handle"]},
+    entry_points={
+        "console_scripts": ["movai-tools = movai_developer_tools.handler:handle"]
+    },
 )

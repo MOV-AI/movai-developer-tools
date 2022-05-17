@@ -1,6 +1,6 @@
 import unittest
 import mock
-from my_component.dummy_operation.operation_executer import OperationExecuter
+from movai_developer_tools.setup_ros.operation_executer import SetupRos
 import argparse
 
 
@@ -16,5 +16,5 @@ class TestOperationExecutor(unittest.TestCase):
         return_value=argparse.Namespace(command="command_operation"),
     )
     def test_operation_execute(self, mock):
-        OperationExecuter().execute(argeparse_extra_arg)
+        SetupRos().execute(argeparse_extra_arg)
         print("TODO")
