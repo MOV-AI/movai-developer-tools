@@ -1,6 +1,6 @@
 import unittest
 import mock
-from my_component.handler import handle
+from movai_developer_tools.handler import handle
 import argparse
 
 
@@ -15,9 +15,7 @@ argeparse_executor_dummy_cmd = argparse.Namespace(
 
 # TODO fix the broken tests as soon as you change/delete the dummy executer
 class TestHandler(unittest.TestCase):
-    @mock.patch(
-        "my_component.dummy_operation.operation_executer.OperationExecuter.execute"
-    )
+    @mock.patch("movai_developer_tools.setup_ros.operation_executer.SetupRos.execute")
     @mock.patch(
         "argparse.ArgumentParser.parse_args", return_value=argeparse_executor_dummy_cmd
     )
@@ -30,12 +28,10 @@ class TestHandler(unittest.TestCase):
     )
 
     @mock.patch(
-        "my_component.dummy_operation.operation_executer.OperationExecuter.add_expected_arguments",
+        "movai_developer_tools.setup_ros.operation_executer.SetupRos.add_expected_arguments",
         side_effect=mock_add_expected_arguments,
     )
-    @mock.patch(
-        "my_component.dummy_operation.operation_executer.OperationExecuter.execute"
-    )
+    @mock.patch("movai_developer_tools.setup_ros.operation_executer.SetupRos.execute")
     @mock.patch("argparse.ArgumentParser.parse_args", return_value=argeparse_extra_arg)
     def test_handler_request_executor_arguments(
         self, mock_argparse, mock_run_executor, mock_add_arg
