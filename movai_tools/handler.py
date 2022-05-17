@@ -2,8 +2,8 @@
 import argparse
 import sys
 
-import my_component.utils.logger as logging
-from my_component.dummy_operation.operation_executer import OperationExecuter
+import movai_tools.utils.logger as logging
+from movai_tools.dummy_operation.operation_executer import OperationExecuter
 
 executors = {
     "command_operation": OperationExecuter,
@@ -12,7 +12,9 @@ executors = {
 
 def handle():
     """Entrypoint method of the package. It handles commands to the executers"""
-    parser = argparse.ArgumentParser(description="DUMMY COMPONENT DESCRIPTION")
+    parser = argparse.ArgumentParser(
+        description="Tools to help development when using MOV.AI platform"
+    )
 
     parser.add_argument("command", help="Command to be executed.")
     parser.add_argument("--dummy_global_arg", help="global arg description")
