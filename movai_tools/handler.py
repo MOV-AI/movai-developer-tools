@@ -3,10 +3,10 @@ import argparse
 import sys
 
 import movai_tools.utils.logger as logging
-from movai_tools.dummy_operation.operation_executer import OperationExecuter
+from movai_tools.setup_ros.operation_executer import SetupRos
 
 executors = {
-    "command_operation": OperationExecuter,
+    "setup-ros": SetupRos,
 }
 
 
@@ -17,7 +17,6 @@ def handle():
     )
 
     parser.add_argument("command", help="Command to be executed.")
-    parser.add_argument("--dummy_global_arg", help="global arg description")
 
     # executor arguments
     for executer in executors.values():

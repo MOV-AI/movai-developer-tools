@@ -1,10 +1,10 @@
 """Module where all the behaviour of a command should be destributed."""
-import my_component.utils.logger as logging
+import movai_tools.utils.logger as logging
 
 # TEMPLATE-CHANGE-ME: Adapt the executer to your context
 
 
-class OperationExecuter:
+class SetupRos:
     """Executer Class should be a representation of a package behaviour"""
 
     def __init__(self):
@@ -15,6 +15,7 @@ class OperationExecuter:
         """Method where the main behaviour of the executer should be"""
         logging.info("execute behaviour")
         logging.info(args)
+        logging.info("TODO: Please set me up :)")
 
     @staticmethod
     def add_expected_arguments(parser):
