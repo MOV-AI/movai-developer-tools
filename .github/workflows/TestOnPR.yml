@@ -9,7 +9,7 @@ on:
       - 'setup.py'
 
 env:
-  PROJECT_SRC_DIR: ./my_component
+  PROJECT_SRC_DIR: ./movai_developer_tools
 
 jobs:
   Test-Py-Component:
