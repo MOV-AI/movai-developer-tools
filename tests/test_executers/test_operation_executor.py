@@ -1,6 +1,8 @@
 import unittest
 import mock
-from movai_developer_tools.movros.open_network.operation_executer import OperationExecuter
+from movai_developer_tools.movros.open_network.operation_executer import (
+    OperationExecuter,
+)
 import argparse
 
 

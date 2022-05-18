@@ -2,7 +2,6 @@
 import movai_developer_tools.utils.logger as logging
 
 
-
 class OperationExecuter:
     """Main class to expose ros topics, services and parameters from docker to the host"""
 

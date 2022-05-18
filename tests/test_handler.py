@@ -1,4 +1,3 @@
-from sys import executable
 import unittest
 import mock
 from movai_developer_tools.movros.handler import handle as movros_handle
@@ -17,18 +16,21 @@ argeparse_executor_movros_open_network_cmd = argparse.Namespace(
 #     command="command_operation", workspace="DUMMY_PATH", dummy_arg="test"
 # )
 
+
 # TODO fix the broken tests as soon as you change/delete the dummy executer
 class TestHandler(unittest.TestCase):
+    """Handler for unittest"""
+
     @mock.patch(
         "movai_developer_tools.movros.open_network.operation_executer.OperationExecuter.execute"
     )
     @mock.patch(
-        "argparse.ArgumentParser.parse_args", return_value=argeparse_executor_movros_open_network_cmd
+        "argparse.ArgumentParser.parse_args",
+        return_value=argeparse_executor_movros_open_network_cmd,
     )
     def test_movros_handler_executer_forward(self, mock_argparse, mock_run_executor):
         movros_handle()
         mock_run_executor.assert_called_with(argeparse_executor_movros_open_network_cmd)
-
 
     # @mock.patch(
     #     "movai_developer_tools.movros.open_network.operation_executer.OperationExecuter.add_expected_arguments",

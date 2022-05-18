@@ -3,7 +3,9 @@ import argparse
 import sys
 
 import movai_developer_tools.utils.logger as logging
-from movai_developer_tools.movros.open_network.operation_executer import OperationExecuter
+from movai_developer_tools.movros.open_network.operation_executer import (
+    OperationExecuter,
+)
 
 executors = {
     "open-network": OperationExecuter,
