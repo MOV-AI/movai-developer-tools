@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 # The 'install_requires' is where you specify the package dependencies of your package. They will be automaticly installed, before your package.  # noqa: E501
 setuptools.setup(
     name="movai-developer-tools",
-    version="1.0.0-2",
+    version="0.0.1-1",
     author="Mithun Kinarullathil",
     author_email="mithun@mov.ai",
     description="Scripts to improve development process when using MOV.AI",
