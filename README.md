@@ -1,6 +1,6 @@
 # repository-template-python-component
 
-**main branch:** 
+**main branch:**
 
 [![Deploy - On branch main/release Push](https://github.com/MOV-AI/repository-template-python-component/actions/workflows/DeployOnMergeMain.yml/badge.svg?branch=dev)](https://github.com/MOV-AI/repository-template-python-component/actions/workflows/DeployOnMergeMain.yml)
 
@@ -39,7 +39,7 @@ trusted-host = artifacts.cloud.mov.ai
 ## Versioning and branching
 
 The branches and meanings:
-- branches derived from dev (feature/ or bugfix/): Its where developements should be introduced to. Its lifetime should be as should as the developments time. 
+- branches derived from dev (feature/ or bugfix/): Its where developements should be introduced to. Its lifetime should be as should as the developments time.
 - dev: The most recent version of the code should be here as its the source of the feature branches. The purpose of this branch is the first point of integration from all features.
 - main/ main*: The branch where you will find the most stable version of the component. Its a "deploy" of dev version to an internal release. This deploy must create an artifact that is avaiable to all other teams to use it and provide feedback to it.
 - branches derived from main (hotfix/): Its where your hotfixes should be implemented. Do not forget to propagate your hotfixes to the other release versions and the main development release line.
