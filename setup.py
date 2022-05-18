@@ -19,5 +19,7 @@ setuptools.setup(
     include_package_data=True,
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=[],
-    entry_points={"console_scripts": ["my-command = DummyComponent.handler:handle"]},
+    entry_points={
+        "console_scripts": ["movros = movai_developer_tools.movros.handler:handle"]
+    },
 )
