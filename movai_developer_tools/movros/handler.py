@@ -2,11 +2,13 @@
 import argparse
 import sys
 
-import my_component.utils.logger as logging
-from my_component.dummy_operation.operation_executer import OperationExecuter
+import movai_developer_tools.utils.logger as logging
+from movai_developer_tools.movros.open_network.operation_executer import (
+    OperationExecuter,
+)
 
 executors = {
-    "command_operation": OperationExecuter,
+    "open-network": OperationExecuter,
 }
 
 
@@ -15,7 +17,6 @@ def handle():
     parser = argparse.ArgumentParser(description="DUMMY COMPONENT DESCRIPTION")
 
     parser.add_argument("command", help="Command to be executed.")
-    parser.add_argument("--dummy_global_arg", help="global arg description")
 
     # executor arguments
     for executer in executors.values():
