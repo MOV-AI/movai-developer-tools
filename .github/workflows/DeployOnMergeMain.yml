@@ -11,7 +11,7 @@ on:
       - 'setup.py'
 
 env:
-  PROJECT_SRC_DIR: ./my_component
+  PROJECT_SRC_DIR: ./movai_developer_tools
 
 jobs:
   Deploy-Py-Internal-Release:
