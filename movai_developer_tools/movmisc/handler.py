@@ -14,9 +14,14 @@ executors = {
 
 def handle():
     """Entrypoint method of the package. It handles commands to the executers"""
-    parser = argparse.ArgumentParser(description="DUMMY COMPONENT DESCRIPTION")
+    parser = argparse.ArgumentParser(
+        description="This component containes miscellaneous tools used when developing with MOV.AI"
+    )
 
-    parser.add_argument("command", help="Command to be executed.")
+    parser.add_argument(
+        "command",
+        help=f"Command to be executed. Options are ({', '.join(executors.keys())})",
+    )
 
     # executor arguments
     for executer in executors.values():
