@@ -4,12 +4,14 @@ import sys
 
 import movai_developer_tools.utils.logger as logging
 from movai_developer_tools.movmisc.spawner_name.operation_executer import (
-    OperationExecuter,
+    SpawnerName,
+)
+from movai_developer_tools.movmisc.spawner_ip.operation_executer import (
+    SpawnerIp,
 )
 
-executors = {
-    "spawner-name": OperationExecuter,
-}
+
+executors = {"spawner-name": SpawnerName, "spawner-ip": SpawnerIp}
 
 
 def handle():

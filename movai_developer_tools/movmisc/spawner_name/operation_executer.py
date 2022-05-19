@@ -4,7 +4,7 @@ import docker
 import re
 
 
-class OperationExecuter:
+class SpawnerName:
     """Main class to expose ros topics, services and parameters from docker to the host"""
 
     def __init__(self):
