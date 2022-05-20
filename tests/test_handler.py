@@ -8,8 +8,8 @@ def mock_add_expected_arguments(parser):
     parser.add_argument("--dummy_arg")
 
 
-argeparse_executor_movros_open_network_cmd = argparse.Namespace(
-    command="open-network", workspace="DUMMY_PATH"
+argeparse_executor_movros_expose_network_cmd = argparse.Namespace(
+    command="expose-network", workspace="DUMMY_PATH"
 )
 
 # argeparse_extra_arg = argparse.Namespace(
@@ -22,22 +22,24 @@ class TestHandler(unittest.TestCase):
     """Handler for unittest"""
 
     @mock.patch(
-        "movai_developer_tools.movros.open_network.operation_executer.OperationExecuter.execute"
+        "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.execute"
     )
     @mock.patch(
         "argparse.ArgumentParser.parse_args",
-        return_value=argeparse_executor_movros_open_network_cmd,
+        return_value=argeparse_executor_movros_expose_network_cmd,
     )
     def test_movros_handler_executer_forward(self, mock_argparse, mock_run_executor):
         movros_handle()
-        mock_run_executor.assert_called_with(argeparse_executor_movros_open_network_cmd)
+        mock_run_executor.assert_called_with(
+            argeparse_executor_movros_expose_network_cmd
+        )
 
     # @mock.patch(
-    #     "movai_developer_tools.movros.open_network.operation_executer.OperationExecuter.add_expected_arguments",
+    #     "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.add_expected_arguments",
     #     side_effect=mock_add_expected_arguments,
     # )
     # @mock.patch(
-    #     "movai_developer_tools.movros.open_network.operation_executer.OperationExecuter.execute"
+    #     "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.execute"
     # )
     # @mock.patch("argparse.ArgumentParser.parse_args", return_value=argeparse_extra_arg)
     # def test_movros_handler_request_executor_arguments(
