@@ -1,6 +1,7 @@
 """Module where all the behaviour of a command should be destributed."""
 import movai_developer_tools.utils.logger as logging
-from movai_developer_tools.movmisc.spawner_name.operation_executer import SpawnerName
+
+# from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
 
 
 class OperationExecuter:
@@ -14,8 +15,10 @@ class OperationExecuter:
         """Method where the main behaviour of the executer should be"""
         logging.info("execute behaviour")
         logging.info(args)
-        spawner_name = SpawnerName().execute(args)
-        print(spawner_name)
+        # Make args for calling other services
+        args.property = "name"
+        # spawner_name = Spawner().execute(args)
+        # spawner_
 
     @staticmethod
     def add_expected_arguments(parser):
