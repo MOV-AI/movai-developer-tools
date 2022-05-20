@@ -1,6 +1,8 @@
 """Module where all the behaviour of a command should be destributed."""
 import movai_developer_tools.utils.logger as logging
 
+# from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
+
 
 class OperationExecuter:
     """Main class to expose ros topics, services and parameters from docker to the host"""
@@ -13,7 +15,10 @@ class OperationExecuter:
         """Method where the main behaviour of the executer should be"""
         logging.info("execute behaviour")
         logging.info(args)
-        logging.info("TODO: Please complete me")
+        # Make args for calling other services
+        args.property = "name"
+        # spawner_name = Spawner().execute(args)
+        # spawner_
 
     @staticmethod
     def add_expected_arguments(parser):
