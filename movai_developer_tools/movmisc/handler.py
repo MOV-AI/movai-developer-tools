@@ -6,8 +6,11 @@ import movai_developer_tools.utils.logger as logging
 from movai_developer_tools.movmisc.spawner.operation_executer import (
     Spawner,
 )
+from movai_developer_tools.movmisc.ros_master.operation_executer import (
+    RosMaster,
+)
 
-executors = {"spawner": Spawner}
+executors = {"spawner": Spawner, "ros-master": RosMaster}
 
 
 def handle():
