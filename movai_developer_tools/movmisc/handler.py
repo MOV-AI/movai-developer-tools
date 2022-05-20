@@ -3,13 +3,11 @@ import argparse
 import sys
 
 import movai_developer_tools.utils.logger as logging
-from movai_developer_tools.movmisc.spawner_name.operation_executer import (
-    OperationExecuter,
+from movai_developer_tools.movmisc.spawner.operation_executer import (
+    Spawner,
 )
 
-executors = {
-    "spawner-name": OperationExecuter,
-}
+executors = {"spawner": Spawner}
 
 
 def handle():

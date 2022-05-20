@@ -17,6 +17,9 @@ setuptools.setup(
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=["docker=5.0.3"],
     entry_points={
-        "console_scripts": ["movros = movai_developer_tools.movros.handler:handle"]
+        "console_scripts": [
+            "movros = movai_developer_tools.movros.handler:handle",
+            "movmisc = movai_developer_tools.movmisc.handler:handle",
+        ]
     },
 )
