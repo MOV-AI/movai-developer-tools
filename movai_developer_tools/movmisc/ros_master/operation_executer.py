@@ -1,4 +1,5 @@
 """Module where all the behaviour of a command should be destributed."""
+import sys
 import movai_developer_tools.utils.logger as logging
 import docker
 import re
@@ -65,7 +66,17 @@ class RosMaster:
         """Method where the main behaviour of the executer should be"""
         logging.info("execute behaviour: movmisc/ros_master_name")
         logging.info(args)
-        return self.prop_to_method[args.property]()
+        try:
+            return self.prop_to_method[args.property]()
+        except KeyError:
+            logging.error(
+                "Invalid command: "
+                + args.property
+                + ". Supported commands are: ("
+                + " ".join(map(str, self.prop_to_method))
+                + ")"
+            )
+            sys.exit()
 
     @staticmethod
     def add_expected_arguments(parser):
