@@ -4,7 +4,7 @@ import movai_developer_tools.utils.logger as logging
 # from movai_developer_tools.movmisc.spawner_name.operation_executer import SpawnerName
 
 
-class SpawnerIp:
+class SpawnerIP:
     """Main class to expose ros topics, services and parameters from docker to the host"""
 
     def __init__(self):

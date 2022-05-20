@@ -7,11 +7,11 @@ from movai_developer_tools.movmisc.spawner_name.operation_executer import (
     SpawnerName,
 )
 from movai_developer_tools.movmisc.spawner_ip.operation_executer import (
-    SpawnerIp,
+    SpawnerIP,
 )
 
 
-executors = {"spawner-name": SpawnerName, "spawner-ip": SpawnerIp}
+executors = {"spawner-name": SpawnerName, "spawner-ip": SpawnerIP}
 
 
 def handle():
