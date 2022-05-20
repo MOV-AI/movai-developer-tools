@@ -19,20 +19,8 @@ class Spawner:
             "ip": self.get_spawner_ip,
             "id": self.get_spawner_id,
             "name": self.get_spawner_name,
+            "gateway": self.get_spawner_gateway,
         }
-
-    def get_spawner_id(self):
-        """Get short id of a container found using regex of the name"""
-        containers = self.docker_client.containers.list()
-        for container in containers:
-            name = container.name
-            short_id = container.short_id
-            if re.search(self.regex_spawner_name, name):
-                print(short_id)
-                return short_id
-        print(
-            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-        )
 
     def get_spawner_ip(self):
         """Get ip address of the first network of a container found using regex of the name"""
@@ -43,8 +31,21 @@ class Spawner:
             if re.search(self.regex_spawner_name, name):
                 network = next(iter(networks))
                 ip = networks[network]["IPAddress"]
-                print(ip)
+                print(f"IPAddress: {ip}")
                 return ip
+        print(
+            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
+        )
+
+    def get_spawner_id(self):
+        """Get short id of a container found using regex of the name"""
+        containers = self.docker_client.containers.list()
+        for container in containers:
+            name = container.name
+            short_id = container.short_id
+            if re.search(self.regex_spawner_name, name):
+                print(f"Short ID: {short_id}")
+                return short_id
         print(
             f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
         )
@@ -55,8 +56,23 @@ class Spawner:
         for container in containers:
             name = container.name
             if re.search(self.regex_spawner_name, name):
-                print(name)
+                print(f"Name: {name}")
                 return name
+        print(
+            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
+        )
+
+    def get_spawner_gateway(self):
+        """Get gateway of the first network of a container found using regex of the name"""
+        containers = self.docker_client.containers.list()
+        for container in containers:
+            name = container.name
+            networks = container.attrs["NetworkSettings"]["Networks"]
+            if re.search(self.regex_spawner_name, name):
+                network = next(iter(networks))
+                gateway = networks[network]["Gateway"]
+                print(f"Gateway: {gateway}")
+                return gateway
         print(
             f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
         )
@@ -72,5 +88,5 @@ class Spawner:
         """Method exposed for the handle to append our executer arguments."""
         parser.add_argument(
             "property",
-            help="Property of the spawner to be fetched, options are (ip, id, name)",
+            help="Property of the component to be fetched, options are (ip, id, name, gateway)",
         )
