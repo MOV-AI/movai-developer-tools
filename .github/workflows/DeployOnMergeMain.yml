@@ -2,7 +2,6 @@ name: "CI - On main/dev/release branches"
 on:
   push:
     branches:
-      - dev
       - main
       - 'releases/**'
     paths-ignore:
