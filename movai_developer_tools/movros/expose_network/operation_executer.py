@@ -29,7 +29,7 @@ class ExposeNetwork:
         args.property = "gateway"
         spawner_gateway = Spawner().execute(args)
 
-        logging.debug(
+        logging.info(
             f"spawner_name: {spawner_name}, spawner_ip: {spawner_ip}, ros_master_ip: {ros_master_ip}, spawner_gateway: {spawner_gateway}"
         )
 

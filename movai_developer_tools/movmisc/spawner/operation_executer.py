@@ -1,8 +1,6 @@
 """Module where all the behaviour of a command should be destributed."""
 import sys
-import movai_developer_tools.utils.logger as logging
-import docker
-import re
+from movai_developer_tools.utils import logger as logging, container_tools
 
 
 class Spawner:
@@ -11,8 +9,6 @@ class Spawner:
     def __init__(self):
         """If your executor requires some initialization, use the class constructor for it"""
         logging.debug("Spawner Init")
-        # Instanciate docker client
-        self.docker_client = docker.from_env()
         # Reg expressions for finding the spawner container
         self.regex_spawner_name = "^spawner-.*"
         # Property to method map
@@ -25,66 +21,55 @@ class Spawner:
 
     def get_spawner_ip(self, args):
         """Get ip address of the first network of a container found using regex of the name"""
-        containers = self.docker_client.containers.list()
-        for container in containers:
-            name = container.name
-            networks = container.attrs["NetworkSettings"]["Networks"]
-            if re.search(self.regex_spawner_name, name):
-                network = next(iter(networks))
-                ip = networks[network]["IPAddress"]
-                if not args.silent:
-                    logging.info(f"IPAddress: {ip}")
-                return ip
-        logging.error(
-            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-        )
+        ip = container_tools.get_container_ip(self.regex_spawner_name)
+        if ip is None:
+            logging.error(
+                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+            )
+        else:
+            if not args.silent:
+                logging.info(f"IPAddress: {ip}")
+        return ip
 
     def get_spawner_id(self, args):
         """Get short id of a container found using regex of the name"""
-        containers = self.docker_client.containers.list()
-        for container in containers:
-            name = container.name
-            short_id = container.short_id
-            if re.search(self.regex_spawner_name, name):
-                if not args.silent:
-                    logging.info(f"Short ID: {short_id}")
-                return short_id
-        logging.error(
-            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-        )
+        short_id = container_tools.get_container_id(self.regex_spawner_name)
+        if short_id is None:
+            logging.error(
+                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+            )
+        else:
+            if not args.silent:
+                logging.info(f"Short ID: {short_id}")
+        return short_id
 
     def get_spawner_name(self, args):
         """Get the name of a container found using regex"""
-        containers = self.docker_client.containers.list()
-        for container in containers:
-            name = container.name
-            if re.search(self.regex_spawner_name, name):
-                if not args.silent:
-                    logging.info(f"Name: {name}")
-                return name
-        logging.error(
-            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-        )
+        name = container_tools.get_container_name(self.regex_spawner_name)
+        if name is None:
+            logging.error(
+                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+            )
+        else:
+            if not args.silent:
+                logging.info(f"Name: {name}")
+        return name
 
     def get_spawner_gateway(self, args):
         """Get gateway of the first network of a container found using regex of the name"""
-        containers = self.docker_client.containers.list()
-        for container in containers:
-            name = container.name
-            networks = container.attrs["NetworkSettings"]["Networks"]
-            if re.search(self.regex_spawner_name, name):
-                network = next(iter(networks))
-                gateway = networks[network]["Gateway"]
-                if not args.silent:
-                    logging.info(f"Gateway: {gateway}")
-                return gateway
-        logging.error(
-            f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-        )
+        gateway = container_tools.get_container_gateway(self.regex_spawner_name)
+        if gateway is None:
+            logging.error(
+                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+            )
+        else:
+            if not args.silent:
+                logging.info(f"Gateway: {gateway}")
+        return gateway
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute Spawner behaviour with args: {args}")
+        logging.debug(f"Execute {args.command} behaviour with args: {args}")
         try:
             return self.prop_to_method[args.property](args)
         except KeyError:
