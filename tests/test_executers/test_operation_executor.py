@@ -1,7 +1,7 @@
 import unittest
 import mock
 from movai_developer_tools.movros.expose_network.operation_executer import (
-    OperationExecuter,
+    ExposeNetwork,
 )
 import argparse
 
@@ -18,5 +18,5 @@ class TestOperationExecutor(unittest.TestCase):
         return_value=argparse.Namespace(command="command_operation"),
     )
     def test_operation_execute(self, mock):
-        OperationExecuter().execute(argeparse_extra_arg)
+        ExposeNetwork().execute(argeparse_extra_arg)
         print("TODO")

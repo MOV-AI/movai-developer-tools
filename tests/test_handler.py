@@ -22,7 +22,7 @@ class TestHandler(unittest.TestCase):
     """Handler for unittest"""
 
     @mock.patch(
-        "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.execute"
+        "movai_developer_tools.movros.expose_network.operation_executer.ExposeNetwork.execute"
     )
     @mock.patch(
         "argparse.ArgumentParser.parse_args",
@@ -35,11 +35,11 @@ class TestHandler(unittest.TestCase):
         )
 
     # @mock.patch(
-    #     "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.add_expected_arguments",
+    #     "movai_developer_tools.movros.expose_network.operation_executer.ExposeNetwork.add_expected_arguments",
     #     side_effect=mock_add_expected_arguments,
     # )
     # @mock.patch(
-    #     "movai_developer_tools.movros.expose_network.operation_executer.OperationExecuter.execute"
+    #     "movai_developer_tools.movros.expose_network.operation_executer.ExposeNetwork.execute"
     # )
     # @mock.patch("argparse.ArgumentParser.parse_args", return_value=argeparse_extra_arg)
     # def test_movros_handler_request_executor_arguments(

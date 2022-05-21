@@ -4,11 +4,11 @@ import sys
 
 import movai_developer_tools.utils.logger as logging
 from movai_developer_tools.movros.expose_network.operation_executer import (
-    OperationExecuter,
+    ExposeNetwork,
 )
 
 executors = {
-    "open-network": OperationExecuter,
+    "expose-network": ExposeNetwork,
 }
 
 
