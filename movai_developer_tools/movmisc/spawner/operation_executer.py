@@ -24,7 +24,7 @@ class Spawner:
         ip = container_tools.get_container_ip(self.regex_spawner_name)
         if ip is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
             )
         else:
             if not args.silent:
@@ -36,7 +36,7 @@ class Spawner:
         short_id = container_tools.get_container_id(self.regex_spawner_name)
         if short_id is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
             )
         else:
             if not args.silent:
@@ -48,7 +48,7 @@ class Spawner:
         name = container_tools.get_container_name(self.regex_spawner_name)
         if name is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
             )
         else:
             if not args.silent:
@@ -60,7 +60,7 @@ class Spawner:
         gateway = container_tools.get_container_gateway(self.regex_spawner_name)
         if gateway is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_spawner_name}"
+                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
             )
         else:
             if not args.silent:
@@ -69,7 +69,7 @@ class Spawner:
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute {args.command} behaviour with args: {args}")
+        logging.debug(f"Execute spawner behaviour with args: {args}")
         try:
             return self.prop_to_method[args.property](args)
         except KeyError:
@@ -89,3 +89,23 @@ class Spawner:
             "property",
             help="Property of the component to be fetched, options are (ip, id, name, gateway)",
         )
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="This component containes miscellaneous tools used when developing with MOV.AI"
+    )
+    parser.add_argument(
+        "--silent",
+        help="Silence the output of commands. Used when commands are used internally to silence the output",
+        action="store_true",
+    )
+    parser.add_argument(
+        "property",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway)",
+    )
+    args = parser.parse_args()
+    spawner = Spawner()
+    spawner.execute(args)

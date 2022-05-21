@@ -24,7 +24,7 @@ class RosMaster:
         ip = container_tools.get_container_ip(self.regex_ros_master_name)
         if ip is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_ros_master_name}"
+                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
             )
         else:
             if not args.silent:
@@ -36,7 +36,7 @@ class RosMaster:
         short_id = container_tools.get_container_id(self.regex_ros_master_name)
         if short_id is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_ros_master_name}"
+                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
             )
         else:
             if not args.silent:
@@ -48,7 +48,7 @@ class RosMaster:
         name = container_tools.get_container_name(self.regex_ros_master_name)
         if name is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_ros_master_name}"
+                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
             )
         else:
             if not args.silent:
@@ -60,7 +60,7 @@ class RosMaster:
         gateway = container_tools.get_container_gateway(self.regex_ros_master_name)
         if gateway is None:
             logging.error(
-                f"Did not find a runnning {args.command} container: Regex used {self.regex_ros_master_name}"
+                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
             )
         else:
             if not args.silent:
@@ -87,5 +87,25 @@ class RosMaster:
         """Method exposed for the handle to append our executer arguments."""
         # parser.add_argument(
         #     "property",
-        #     help="Property of the {args.command} to be fetched, options are (ip, id, name)",
+        #     help="Property of the ros-master to be fetched, options are (ip, id, name)",
         # )
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="This component containes miscellaneous tools used when developing with MOV.AI"
+    )
+    parser.add_argument(
+        "--silent",
+        help="Silence the output of commands. Used when commands are used internally to silence the output",
+        action="store_true",
+    )
+    parser.add_argument(
+        "property",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway)",
+    )
+    args = parser.parse_args()
+    spawner = RosMaster()
+    spawner.execute(args)
