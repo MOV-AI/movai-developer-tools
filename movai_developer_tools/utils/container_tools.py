@@ -1,5 +1,5 @@
 """Module that contains a wrapper container_tools to ease interacting with the python docker module"""
-import logging
+from movai_developer_tools.utils.logger import logging
 import docker
 import sys
 
@@ -11,7 +11,7 @@ def get_container_obj_by_name_regex(regex):
     if containers:
         return containers[0]
     else:
-        logging.error(f"Did not find a runnning spawner container: Regex used {regex}")
+        logging.error(f"Did not find a runnning container: Regex used {regex}")
         sys.exit(1)
 
 
