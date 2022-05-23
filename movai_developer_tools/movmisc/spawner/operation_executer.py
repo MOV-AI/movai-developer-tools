@@ -17,55 +17,60 @@ class Spawner:
             "id": self.get_spawner_id,
             "name": self.get_spawner_name,
             "gateway": self.get_spawner_gateway,
+            "userspace-dir": self.get_spawner_userspace_dir,
         }
+        # Container userspace bind location
+        self.container_bind_dir = "/opt/mov.ai/user"
 
     def get_spawner_ip(self, args):
         """Get ip address of the first network of a container found using regex of the name"""
         ip = container_tools.get_container_ip(self.regex_spawner_name)
-        if ip is None:
-            logging.error(
-                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"IPAddress: {ip}")
+        # Log if not silent
+        if not args.silent:
+            logging.info(f"IPAddress: {ip}")
         return ip
 
     def get_spawner_id(self, args):
         """Get short id of a container found using regex of the name"""
         short_id = container_tools.get_container_id(self.regex_spawner_name)
-        if short_id is None:
-            logging.error(
-                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Short ID: {short_id}")
+        # Log if not silent
+        if not args.silent:
+            logging.info(f"Short ID: {short_id}")
         return short_id
 
     def get_spawner_name(self, args):
         """Get the name of a container found using regex"""
         name = container_tools.get_container_name(self.regex_spawner_name)
-        if name is None:
-            logging.error(
-                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Name: {name}")
+        # Log if not silent
+        if not args.silent:
+            logging.info(f"Name: {name}")
         return name
 
     def get_spawner_gateway(self, args):
         """Get gateway of the first network of a container found using regex of the name"""
         gateway = container_tools.get_container_gateway(self.regex_spawner_name)
-        if gateway is None:
-            logging.error(
-                f"Did not find a runnning spawner container: Regex used {self.regex_spawner_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Gateway: {gateway}")
+        # Log if not silent
+        if not args.silent:
+            logging.info(f"Gateway: {gateway}")
         return gateway
+
+    def get_spawner_userspace_dir(self, args):
+        """Return userspace that is mounted in the spawner"""
+        spawner_container = container_tools.get_container_obj_by_name_regex(
+            self.regex_spawner_name
+        )
+        binds = spawner_container.attrs["HostConfig"]["Binds"]
+        # Check the bind at "/opt/mov.ai/user", which is where the userspace is mounted
+        userspace_dir = None
+        for bind in binds:
+            _split = bind.split(":")
+            if _split[1] == self.container_bind_dir:
+                userspace_dir = _split[0]
+                break
+        # Log if not silent
+        if not args.silent:
+            logging.info(f"Gateway: {userspace_dir}")
+        return userspace_dir
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
@@ -87,7 +92,7 @@ class Spawner:
         """Method exposed for the handle to append our executer arguments."""
         parser.add_argument(
             "property",
-            help="Property of the component to be fetched, options are (ip, id, name, gateway)",
+            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir)",
         )
 
 
