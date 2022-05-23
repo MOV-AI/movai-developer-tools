@@ -83,7 +83,8 @@ class Spawner:
         exit_code, output = spawner_container.exec_run(
             cmd=args.exec_command, user="movai"
         )
-        logging.info(exit_code, output)
+        # Log output in ascii
+        logging.info(output.decode("ascii"))
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
@@ -110,7 +111,7 @@ class Spawner:
         parser.add_argument(
             "--exec-command",
             help="Command to be executed in the spawner",
-            default="echo 'Hi there, I am an echo being executed in the spawner container, please use --exec-command to specify the command you want to run'",
+            default="echo 'Hi there, I am an echo being executed in the spawner container. Please use [--exec-command EXEC_COMMAND] to specify the command you want to run'",
         )
 
 
