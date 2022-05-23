@@ -81,7 +81,7 @@ class Spawner:
             self.regex_spawner_name
         )
         exit_code, output = spawner_container.exec_run(
-            cmd=args.exec_command, user="movai"
+            cmd=args.cmd, user=args.user, environment=[args.env]
         )
         # Log if not silent
         if not args.silent:
@@ -112,9 +112,18 @@ class Spawner:
             help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec)",
         )
         parser.add_argument(
-            "--exec-command",
+            "--cmd",
             help="Command to be executed in the spawner",
-            default="echo 'Hi there, I am an echo being executed in the spawner container. Please use [--exec-command EXEC_COMMAND] to specify the command you want to run'",
+            default="echo 'Hi there, I am an echo being executed in the spawner container. Please use [--cmd EXEC_COMMAND] to specify the command you want to run'",
+        )
+        parser.add_argument(
+            "--user",
+            help="User to execute docker exec command as. Default: movai",
+            default="movai",
+        )
+        parser.add_argument(
+            "--env",
+            help="A dictionary or a list of strings in the following format ['s'] or {'PASSWORD': 'xxx'}",
         )
 
 
