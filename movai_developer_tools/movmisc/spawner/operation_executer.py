@@ -18,6 +18,7 @@ class Spawner:
             "name": self.get_spawner_name,
             "gateway": self.get_spawner_gateway,
             "userspace-dir": self.get_spawner_userspace_dir,
+            "exec": self.spawner_exec,
         }
         # Container userspace bind location
         self.container_bind_dir = "/opt/mov.ai/user"
@@ -74,16 +75,26 @@ class Spawner:
         logging.error("Userspace not mounted.")
         sys.exit(1)
 
+    def spawner_exec(self, args):
+        """Execute given command inside the spawner, user:movai"""
+        spawner_container = container_tools.get_container_obj_by_name_regex(
+            self.regex_spawner_name
+        )
+        exit_code, output = spawner_container.exec_run(
+            cmd=args.exec_command, user="movai"
+        )
+        logging.info(exit_code, output)
+
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
         logging.debug(f"Execute spawner behaviour with args: {args}")
         try:
-            return self.prop_to_method[args.property](args)
+            return self.prop_to_method[args.sub_command](args)
         except KeyError:
             logging.error(
                 "Invalid command: "
-                + args.property
-                + ". Supported commands are: ("
+                + args.sub_command
+                + ". Supported sub_commands are: ("
                 + " ".join(map(str, self.prop_to_method))
                 + ")"
             )
@@ -93,8 +104,13 @@ class Spawner:
     def add_expected_arguments(parser):
         """Method exposed for the handle to append our executer arguments."""
         parser.add_argument(
-            "property",
-            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir)",
+            "sub_command",
+            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec)",
+        )
+        parser.add_argument(
+            "--exec-command",
+            help="Command to be executed in the spawner",
+            default="echo 'Hi there, I am an echo being executed in the spawner container, please use --exec-command to specify the command you want to run'",
         )
 
 
@@ -110,8 +126,8 @@ if __name__ == "__main__":
         action="store_true",
     )
     parser.add_argument(
-        "property",
-        help="Property of the component to be fetched, options are (ip, id, name, gateway)",
+        "sub_command",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec)",
     )
     args = parser.parse_args()
     spawner = Spawner()
