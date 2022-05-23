@@ -69,7 +69,7 @@ class Spawner:
                 break
         # Log if not silent
         if not args.silent:
-            logging.info(f"Gateway: {userspace_dir}")
+            logging.info(f"Userspace directory: {userspace_dir}")
         return userspace_dir
 
     def execute(self, args):
