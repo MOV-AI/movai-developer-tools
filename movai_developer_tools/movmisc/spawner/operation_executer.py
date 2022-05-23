@@ -83,8 +83,11 @@ class Spawner:
         exit_code, output = spawner_container.exec_run(
             cmd=args.exec_command, user="movai"
         )
-        # Log output in ascii
-        logging.info(output.decode("ascii"))
+        # Log if not silent
+        if not args.silent:
+            # Log output in ascii
+            logging.info(output.decode("ascii"))
+        return output
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
