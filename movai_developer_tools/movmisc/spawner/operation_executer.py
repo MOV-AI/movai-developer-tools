@@ -66,11 +66,13 @@ class Spawner:
             _split = bind.split(":")
             if _split[1] == self.container_bind_dir:
                 userspace_dir = _split[0]
-                break
-        # Log if not silent
-        if not args.silent:
-            logging.info(f"Userspace directory: {userspace_dir}")
-        return userspace_dir
+                # Log if not silent
+                if not args.silent:
+                    logging.info(f"Userspace directory: {userspace_dir}")
+                return userspace_dir
+        # Exit if userspace is not found
+        logging.error("Userspace not mounted.")
+        sys.exit(1)
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
