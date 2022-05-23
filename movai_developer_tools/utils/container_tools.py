@@ -18,7 +18,6 @@ def get_container_obj_by_name_regex(regex):
 def get_container_ip(regex):
     """Return a container ip given a regex string to compare against the name."""
     container = get_container_obj_by_name_regex(regex)
-    # if containers:
     networks = container.attrs["NetworkSettings"]["Networks"]
     network = next(iter(networks))
     ip = networks[network]["IPAddress"]
