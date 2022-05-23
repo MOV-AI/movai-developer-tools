@@ -1,6 +1,8 @@
 """Module where all the behaviour of a command should be destributed."""
 from movai_developer_tools.utils import logger as logging
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
+import os
+import sys
 
 
 class Importer:
@@ -16,8 +18,13 @@ class Importer:
         logging.debug(f"Execute importer behaviour with args: {args}")
         # Get container to make the operation in silently
         args.silent = True
-        spawner_container_name = self.spawner.get_spawner_name(args)
-        logging.error(spawner_container_name)
+        host_userspace = self.spawner.get_spawner_userspace_dir(args)
+        # Check provided directory is inside the userspace
+        if host_userspace not in os.getcwd():
+            logging.error(
+                f"Directory to be used must be inside the userspace: {host_userspace}"
+            )
+            sys.exit(1)
 
     @staticmethod
     def add_expected_arguments(parser):
