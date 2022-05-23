@@ -12,6 +12,8 @@ class Importer:
         """If your executor requires some initialization, use the class constructor for it"""
         logging.debug("Importer Init")
         self.spawner = Spawner()
+        # Container userspace bind location
+        self.container_bind_dir = "/opt/mov.ai/user"
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
@@ -20,11 +22,15 @@ class Importer:
         args.silent = True
         host_userspace = self.spawner.get_spawner_userspace_dir(args)
         # Check provided directory is inside the userspace
-        if host_userspace not in os.getcwd():
+        cwd = os.getcwd()
+        if host_userspace not in cwd:
             logging.error(
                 f"Directory to be used must be inside the userspace: {host_userspace}"
             )
             sys.exit(1)
+        # Get path in spawner
+        dir_in_spawner = self.container_bind_dir + cwd.replace(host_userspace, "")
+        logging.error(dir_in_spawner)
 
     @staticmethod
     def add_expected_arguments(parser):
