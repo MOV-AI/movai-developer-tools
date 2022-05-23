@@ -2,6 +2,7 @@
 import movai_developer_tools.utils.logger as logging
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
 from movai_developer_tools.movmisc.ros_master.operation_executer import RosMaster
+from pathlib import Path
 
 
 class ExposeNetwork:
@@ -14,6 +15,21 @@ class ExposeNetwork:
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
         logging.debug(f"Execute ExposeNetwork behaviour with args: {args}")
+        # Validate if ROS LTS is installed in the host
+        supported_ros_distros = ["noetic", "melodic"]
+        ros_installed = False
+        for ros_distro in supported_ros_distros:
+            if Path(f"/opt/ros/{ros_distro}/setup.bash").is_file():
+                ros_installed = True
+                break
+
+        # Exit if ros is not installed
+        if not ros_installed:
+            logging.error(
+                f"No supported ROS distribution ({supported_ros_distros}) is installed, aborting ROS setup"
+            )
+            return 1
+
         # Make args for calling other services
         # Silence the log output from other services because the function is being used internally
         # Only the return value is used and not the printed one
@@ -29,6 +45,12 @@ class ExposeNetwork:
         args.property = "gateway"
         spawner_gateway = Spawner().execute(args)
 
+        # TODO: Update docker entry point script: Add ROS_IP
+        # TODO: Update docker bashrc: Add ROS_IP
+        # TODO: Export ROS_IP and ROS_MASTER_URI to the host
+        # export ROS_IP="${gateway}"
+        # export ROS_MASTER_URI="http://${ros_master_ip}:11311/"
+        # echo "ROS environment variables ROS_IP and ROS_MASTER_URI exported. You can now use your ROS tools :)"
         logging.info(
             f"spawner_name: {spawner_name}, spawner_ip: {spawner_ip}, ros_master_ip: {ros_master_ip}, spawner_gateway: {spawner_gateway}"
         )
