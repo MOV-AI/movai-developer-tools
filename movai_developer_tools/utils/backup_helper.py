@@ -1,7 +1,6 @@
 """Module that contains a set of functions to ease interacting with the metadata backup functionality"""
 from movai_developer_tools.utils.logger import logging
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
-import os
 from pathlib import Path
 import sys
 
@@ -23,18 +22,15 @@ def get_manifest_files_in_spawner(args) -> list:
     host_userspace = spawner_cls.get_spawner_userspace_dir(args)
 
     # Check provided directory is inside the userspace
-    cwd = os.getcwd()
-    if host_userspace not in cwd:
+    cwd = Path.cwd()
+    if host_userspace not in str(cwd):
         logging.error(
             f"Directory to be used must be inside the userspace: {host_userspace}"
         )
         sys.exit(1)
 
     # Get all manifest files recursively in the host
-    path = Path(cwd)
-    manifest_files_in_host = map(
-        lambda x: str(x.absolute()), path.rglob(manifest_regex)
-    )
+    manifest_files_in_host = map(lambda x: str(x.absolute()), cwd.rglob(manifest_regex))
     # Convert to spawner container mounted paths
     manifest_files_in_spawner = list(
         map(
