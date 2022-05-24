@@ -1,14 +1,15 @@
 """Main package module. Contains the handler, executors and other modules inside.# noqa: E501"""
 import argparse
 import sys
-
 from movai_developer_tools.utils.logger import logging
 from movai_developer_tools.movbkp.import_metadata.operation_executer import Importer
 from movai_developer_tools.movbkp.export_metadata.operation_executer import Exporter
+from movai_developer_tools.movbkp.remove_metadata.operation_executer import Remover
 
 executors = {
     "import": Importer,
     "export": Exporter,
+    "remove": Remover,
 }
 
 
