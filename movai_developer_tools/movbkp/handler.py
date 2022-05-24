@@ -15,12 +15,19 @@ executors = {
 def handle():
     """Entrypoint method of the package. It handles commands to the executers"""
     parser = argparse.ArgumentParser(
-        description="This component containes backup (import/export) tools used on MOV.AI metadata files when developing with MOV.AI"
+        description=f"This component containes backup {', '.join(map(str, executors))} tools used on MOV.AI metadata files when developing with MOV.AI"
     )
 
     parser.add_argument(
         "command",
         help=f"Command to be executed. Options are ({', '.join(executors.keys())})",
+    )
+    parser.add_argument(
+        "-dry",
+        "--dry",
+        "--dry-run",
+        help=f"Dry run commands {', '.join(map(str, executors))} without modifiying any files",
+        action="store_true",
     )
 
     # executor arguments

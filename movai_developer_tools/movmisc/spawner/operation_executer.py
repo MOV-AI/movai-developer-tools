@@ -81,7 +81,7 @@ class Spawner:
             self.regex_spawner_name
         )
         exit_code, output = spawner_container.exec_run(
-            cmd=args.cmd, user=args.user, environment=args.env
+            cmd=["bash", "-c", args.cmd], user=args.user, environment=args.env
         )
         # Log if not silent
         if not args.silent:

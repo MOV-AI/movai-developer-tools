@@ -9,6 +9,7 @@ def get_manifest_files_in_spawner(args) -> list:
     """Get a list of manifest.txt file locations inside the spawner container"""
     # Container userspace bind location
     container_bind_dir = "/opt/mov.ai/user"
+    # Instanciate spawner class
     spawner_cls = Spawner()
 
     # Run spawner container command with args
@@ -33,6 +34,45 @@ def get_manifest_files_in_spawner(args) -> list:
     manifest_files_in_spawner = spawner_cls.spawner_exec(args).decode("ascii").split()
 
     return manifest_files_in_spawner
+
+
+def iterative_backup_action(args, manifest_files_in_spawner) -> None:
+    """Iteratively import/export/delete (args.command) based on manifest_files_in_spawner"""
+    # Instanciate spawner class
+    spawner_cls = Spawner()
+
+    # Backup options for import
+    backup_opts = "-i -c -f"
+
+    # If command is remove update backup_opts
+    if args.command == "remove":
+        backup_opts = backup_opts.replace(" -f", "")
+
+    # Import metadata using each manifest
+    for manifest in manifest_files_in_spawner:
+        # Log
+        logging.info(f"{args.command.upper()}ING metadata present in {manifest}")
+        # Get manifest file directory and metadata directory (project, -p arg on backup tool)
+        manifest_dir_in_spawner = manifest.replace("/manifest.txt", "")
+        metadata_dir = manifest_dir_in_spawner + "/metadata"
+
+        # If PYTHONPATH is not set, scenes fail to export
+        args.env = [
+            "PYTHONPATH=/opt/mov.ai/app:/opt/ros/melodic/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages"
+        ]
+        # Non silent operation
+        args.silent = False
+
+        # Bypass [Y/n/[A]ll/[K]eep all] command for export command
+        args.cmd = f"python3 -m tools.backup -p {metadata_dir} -a {args.command} -m {manifest} {backup_opts}"
+        if args.command == "export":
+            args.cmd = "echo 'A' | " + args.cmd
+
+        # Execute if not dry run
+        if not args.dry:
+            spawner_cls.spawner_exec(args)
+        else:
+            logging.info("Dry run mode, please remove the dry run args to execute")
 
 
 if __name__ == "__main__":
@@ -62,6 +102,13 @@ if __name__ == "__main__":
         help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
         nargs="+",
         default=[],
+    )
+    parser.add_argument(
+        "-dry",
+        "--dry",
+        "--dry-run",
+        help="Dry run commands (import, export, delete) without modifiying any files",
+        action="store_true",
     )
     args = parser.parse_args()
 
