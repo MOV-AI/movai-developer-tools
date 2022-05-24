@@ -81,7 +81,7 @@ class Spawner:
             self.regex_spawner_name
         )
         exit_code, output = spawner_container.exec_run(
-            cmd=args.cmd, user=args.user, environment=[args.env]
+            cmd=args.cmd, user=args.user, environment=args.env
         )
         # Log if not silent
         if not args.silent:
@@ -123,7 +123,9 @@ class Spawner:
         )
         parser.add_argument(
             "--env",
-            help="A dictionary or a list of strings in the following format ['s'] or {'PASSWORD': 'xxx'}",
+            help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
+            nargs="+",
+            default=[],
         )
 
 
