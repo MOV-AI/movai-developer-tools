@@ -2,6 +2,7 @@
 from movai_developer_tools.utils.logger import logging
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
 import os
+from pathlib import Path
 import sys
 
 
@@ -9,6 +10,8 @@ def get_manifest_files_in_spawner(args) -> list:
     """Get a list of manifest.txt file locations inside the spawner container"""
     # Container userspace bind location
     container_bind_dir = "/opt/mov.ai/user"
+    # Manifest regex
+    manifest_regex = "*manifest.txt"
     # Instanciate spawner class
     spawner_cls = Spawner()
 
@@ -27,11 +30,18 @@ def get_manifest_files_in_spawner(args) -> list:
         )
         sys.exit(1)
 
-    # Get path in spawner
-    dir_in_spawner = container_bind_dir + cwd.replace(host_userspace, "")
-    # Get all manifest files found in child directories
-    args.cmd = f"find {dir_in_spawner} -name 'manifest.txt'"
-    manifest_files_in_spawner = spawner_cls.spawner_exec(args).decode("ascii").split()
+    # Get all manifest files recursively in the host
+    path = Path(cwd)
+    manifest_files_in_host = map(
+        lambda x: str(x.absolute()), path.rglob(manifest_regex)
+    )
+    # Convert to spawner container mounted paths
+    manifest_files_in_spawner = list(
+        map(
+            lambda x: x.replace(host_userspace, container_bind_dir),
+            manifest_files_in_host,
+        )
+    )
 
     return manifest_files_in_spawner
 
