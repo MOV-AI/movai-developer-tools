@@ -5,11 +5,15 @@ from movai_developer_tools.utils.logger import logging
 from movai_developer_tools.movbkp.import_metadata.operation_executer import Importer
 from movai_developer_tools.movbkp.export_metadata.operation_executer import Exporter
 from movai_developer_tools.movbkp.remove_metadata.operation_executer import Remover
+from movai_developer_tools.movbkp.reinstall_metadata.operation_executer import (
+    ReInstaller,
+)
 
 executors = {
     "import": Importer,
     "export": Exporter,
     "remove": Remover,
+    "re-install": ReInstaller,
 }
 
 
