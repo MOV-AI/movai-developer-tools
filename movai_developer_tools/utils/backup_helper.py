@@ -9,41 +9,54 @@ def get_manifest_files_in_spawner(args) -> list:
     """Get a list of manifest.txt file locations inside the spawner container"""
     # Container userspace bind location
     container_bind_dir = "/opt/mov.ai/user"
+    # Metadata install location in spawner
+    metadata_install_dir = "/opt/ros/${ROS_DISTRO}/share"
     # Manifest regex
     manifest_regex = "*manifest.txt"
     # Instanciate spawner class
     spawner_cls = Spawner()
 
-    # Run spawner container command with args
     # Make required args for spawner_exec method
     args.silent = True
     args.user = "movai"
     args.env = []
-    host_userspace = spawner_cls.get_spawner_userspace_dir(args)
 
-    # Check provided directory is inside the userspace
-    cwd = Path.cwd()
-    if host_userspace not in str(cwd):
-        logging.error(
-            f"Directory to be used must be inside the userspace: {host_userspace}"
+    # In re-install get list inside the install location in spawner
+    # Docker exec can't be avoided here :(
+    if args.command == "re-install":
+        args.cmd = f"find {metadata_install_dir} -name {manifest_regex}"
+        manifest_files_in_spawner = (
+            spawner_cls.spawner_exec(args).decode("ascii").split()
         )
-        sys.exit(1)
+    else:
+        # Run spawner container command with args
+        host_userspace = spawner_cls.get_spawner_userspace_dir(args)
 
-    # Get all manifest files recursively in the host
-    manifest_files_in_host = map(lambda x: str(x.absolute()), cwd.rglob(manifest_regex))
-    # Convert to spawner container mounted paths
-    manifest_files_in_spawner = list(
-        map(
-            lambda x: x.replace(host_userspace, container_bind_dir),
-            manifest_files_in_host,
+        # Check provided directory is inside the userspace
+        cwd = Path.cwd()
+        if host_userspace not in str(cwd):
+            logging.error(
+                f"Directory to be used must be inside the userspace: {host_userspace}"
+            )
+            sys.exit(1)
+
+        # Get all manifest files recursively in the host
+        manifest_files_in_host = map(
+            lambda x: str(x.absolute()), cwd.rglob(manifest_regex)
         )
-    )
+        # Convert to spawner container mounted paths
+        manifest_files_in_spawner = list(
+            map(
+                lambda x: x.replace(host_userspace, container_bind_dir),
+                manifest_files_in_host,
+            )
+        )
 
     return manifest_files_in_spawner
 
 
 def iterative_backup_action(args, manifest_files_in_spawner) -> None:
-    """Iteratively import/export/delete (args.command) based on manifest_files_in_spawner"""
+    """Iteratively import/export/remove (args.command) based on manifest_files_in_spawner"""
     # Instanciate spawner class
     spawner_cls = Spawner()
 
