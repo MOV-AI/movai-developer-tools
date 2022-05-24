@@ -1,4 +1,4 @@
-"""Main package module. Contains the handler, executors and other modules inside.# noqa: E501"""
+"Recursively imports, exports, removes or re-installs all manifest.txt files found under the directory"
 import argparse
 import sys
 from movai_developer_tools.utils.logger import logging
