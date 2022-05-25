@@ -1,6 +1,7 @@
 """Module where all the behaviour of a command should be destributed."""
 import sys
 from movai_developer_tools.utils import logger as logging, container_tools
+import time
 
 
 class Spawner:
@@ -19,6 +20,7 @@ class Spawner:
             "gateway": self.get_spawner_gateway,
             "userspace-dir": self.get_spawner_userspace_dir,
             "exec": self.spawner_exec,
+            "logs": self.logs,
         }
         # Container userspace bind location
         self.container_bind_dir = "/opt/mov.ai/user"
@@ -89,6 +91,26 @@ class Spawner:
             logging.info(output.decode("ascii"))
         return output
 
+    def logs(self, args):
+        """Get logs of the spawner container"""
+        spawner_container = container_tools.get_container_obj_by_name_regex(
+            self.regex_spawner_name
+        )
+        # Get logs stream
+        logs_stream = spawner_container.logs(tail=100, follow=True, stream=True)
+        # Print stream, exit on keyboard interrupt
+        try:
+            while True:
+                # Remove the "\n" to remove the empty line after every print
+                # Using print to keep the same color and structure of docker logs
+                print(logs_stream.next().decode().replace("\n", ""))
+                # Sleep 0.1ms, keep printing logs very fast.
+                # TODO: Better method?.
+                time.sleep(0.0001)
+        except KeyboardInterrupt:
+            logging.info("Recieved keyboard interrupt, exiting.")
+            sys.exit()
+
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
         logging.debug(f"Execute spawner behaviour with args: {args}")
@@ -109,7 +131,7 @@ class Spawner:
         """Method exposed for the handle to append our executer arguments."""
         parser.add_argument(
             "sub_command",
-            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec)",
+            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
         )
         parser.add_argument(
             "--cmd",
@@ -142,7 +164,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "sub_command",
-        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec)",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
     )
     args = parser.parse_args()
     spawner = Spawner()
