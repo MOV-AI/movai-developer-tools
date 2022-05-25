@@ -71,12 +71,12 @@ class RosMaster:
         """Method where the main behaviour of the executer should be"""
         logging.debug(f"Execute RosMaster behaviour with args: {args}")
         try:
-            return self.prop_to_method[args.property](args)
+            return self.prop_to_method[args.sub_command](args)
         except KeyError:
             logging.error(
                 "Invalid command: "
-                + args.property
-                + ". Supported commands are: ("
+                + args.sub_command
+                + ". Supported sub-commands are: ("
                 + " ".join(map(str, self.prop_to_method))
                 + ")"
             )
