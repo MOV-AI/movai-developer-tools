@@ -11,6 +11,8 @@ class ExposeNetwork:
     def __init__(self):
         """If your executor requires some initialization, use the class constructor for it"""
         logging.debug("ExposeNetwork Init")
+        # ROS instllation dir
+        self.ros_install_dir = "/opt/ros"
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
@@ -19,7 +21,7 @@ class ExposeNetwork:
         supported_ros_distros = ["noetic", "melodic"]
         ros_installed = False
         for ros_distro in supported_ros_distros:
-            if Path(f"/opt/ros/{ros_distro}/setup.bash").is_file():
+            if Path(f"{self.ros_install_dir}" + f"/{ros_distro}/setup.bash").is_file():
                 ros_installed = True
                 break
 
@@ -35,14 +37,14 @@ class ExposeNetwork:
         # Only the return value is used and not the printed one
         args.silent = True
         # Get name of the spawner container
-        args.property = "name"
+        args.sub_command = "name"
         spawner_name = Spawner().execute(args)
         # Get ip of the spawner and ros-master container networks
-        args.property = "ip"
+        args.sub_command = "ip"
         spawner_ip = Spawner().execute(args)
         ros_master_ip = RosMaster().execute(args)
         # Get gateway of the spawner container network
-        args.property = "gateway"
+        args.sub_command = "gateway"
         spawner_gateway = Spawner().execute(args)
 
         # TODO: Update docker entry point script: Add ROS_IP
