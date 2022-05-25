@@ -81,9 +81,9 @@ def iterative_backup_action(args, manifest_files_in_spawner) -> None:
         metadata_dir = manifest_dir_in_spawner + "/metadata"
 
         # If PYTHONPATH is not set, scenes fail to export
-        args.env = [
-            "PYTHONPATH=/opt/mov.ai/app:/opt/ros/melodic/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages"
-        ]
+        args.env = {
+            "PYTHONPATH": "/opt/mov.ai/app:/opt/ros/melodic/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages"
+        }
         # Non silent operation
         args.silent = False
 
