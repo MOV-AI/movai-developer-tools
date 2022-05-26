@@ -1,5 +1,5 @@
 """Module that contains a set of functions to ease interacting with the metadata backup functionality"""
-from movai_developer_tools.utils.logger import logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
 import pathlib
 import sys
@@ -38,7 +38,7 @@ def get_manifest_files_in_spawner(args) -> list:
 
         # Check provided directory is inside the userspace
         if host_userspace not in str(path_to_package):
-            logging.error(
+            logger.error(
                 f"Directory to be used must be inside the userspace: {host_userspace}"
             )
             sys.exit(1)
@@ -73,7 +73,7 @@ def iterative_backup_action(args, manifest_files_in_spawner) -> None:
     # Import metadata using each manifest
     for manifest in manifest_files_in_spawner:
         # Log
-        logging.info(f"{args.command.upper()}ING metadata present in {manifest}")
+        logger.info(f"{args.command.upper()}ING metadata present in {manifest}")
         # Get manifest file directory and metadata directory (project, -p arg on backup tool)
         manifest_dir_in_spawner = manifest.replace("/manifest.txt", "")
         metadata_dir = manifest_dir_in_spawner + "/metadata"
@@ -94,7 +94,7 @@ def iterative_backup_action(args, manifest_files_in_spawner) -> None:
         if not args.dry:
             spawner_cls.exec(args)
         else:
-            logging.info("Dry run mode, please remove the dry run args to execute")
+            logger.info("Dry run mode, please remove the dry run args to execute")
 
 
 if __name__ == "__main__":

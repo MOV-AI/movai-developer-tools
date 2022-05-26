@@ -1,137 +1,41 @@
 """Module where all the behaviour of a command should be destributed."""
 import sys
-from movai_developer_tools.utils import logger as logging, container_tools
-import time
+from movai_developer_tools.utils import logger
+from movai_developer_tools.utils.container_tools import ContainerTools
 
 
-class Spawner:
+class Spawner(ContainerTools):
     """Main class to get properties of the active spawner container"""
 
-    def __init__(self):
+    def __init__(self, args):
         """If your executor requires some initialization, use the class constructor for it"""
-        logging.debug("Spawner Init")
+        logger.debug("Spawner Init")
         # Reg expressions for finding the spawner container
         self.regex_spawner_name = "^spawner-.*"
+        super().__init__(self.regex_spawner_name)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,
             "id": self.get_id,
             "name": self.get_name,
             "gateway": self.get_gateway,
+            "restart": self.restart,
             "userspace-dir": self.get_userspace_dir,
             "exec": self.exec,
             "logs": self.logs,
         }
-        # Container userspace bind location
-        self.container_bind_dir = "/opt/mov.ai/user"
+        # Pass args as instance variable
+        self.args = args
 
-    def get_ip(self, args):
-        """Get ip address of the first network of a container found using regex of the name"""
-        ip = container_tools.get_container_ip(self.regex_spawner_name)
-        # Log if not silent
-        if not args.silent:
-            logging.info(f"IPAddress: {ip}")
-        return ip
-
-    def get_id(self, args):
-        """Get short id of a container found using regex of the name"""
-        short_id = container_tools.get_container_id(self.regex_spawner_name)
-        # Log if not silent
-        if not args.silent:
-            logging.info(f"Short ID: {short_id}")
-        return short_id
-
-    def get_name(self, args):
-        """Get the name of a container found using regex"""
-        name = container_tools.get_container_name(self.regex_spawner_name)
-        # Log if not silent
-        if not args.silent:
-            logging.info(f"Name: {name}")
-        return name
-
-    def get_gateway(self, args):
-        """Get gateway of the first network of a container found using regex of the name"""
-        gateway = container_tools.get_container_gateway(self.regex_spawner_name)
-        # Log if not silent
-        if not args.silent:
-            logging.info(f"Gateway: {gateway}")
-        return gateway
-
-    def get_userspace_dir(self, args):
-        """Return userspace that is mounted in the spawner"""
-        spawner_container = container_tools.get_container_obj_by_name_regex(
-            self.regex_spawner_name
-        )
-        binds = spawner_container.attrs["HostConfig"]["Binds"]
-        # Check the bind at "/opt/mov.ai/user", which is where the userspace is mounted
-        userspace_dir = None
-        for bind in binds:
-            _split = bind.split(":")
-            if _split[1] == self.container_bind_dir:
-                userspace_dir = _split[0]
-                # Log if not silent
-                if not args.silent:
-                    logging.info(f"Userspace directory: {userspace_dir}")
-                return userspace_dir
-        # Exit if userspace is not found
-        logging.error("Userspace not mounted.")
-        sys.exit(1)
-
-    def exec(self, args):
-        """Execute given command inside the spawner, user:movai"""
-        spawner_container = container_tools.get_container_obj_by_name_regex(
-            self.regex_spawner_name
-        )
-        exit_code, output = spawner_container.exec_run(
-            cmd=["bash", "-c", args.cmd], user=args.user, environment=args.env
-        )
-        # Log if not silent
-        if not args.silent:
-            # Log output in ascii
-            logging.info(output.decode("ascii"))
-        return output
-
-    def logs(self, args):
-        """Get logs of the spawner container"""
-        spawner_container = container_tools.get_container_obj_by_name_regex(
-            self.regex_spawner_name
-        )
-        # Get logs stream
-        logs_stream = spawner_container.logs(tail=100, follow=True, stream=True)
-        # Print stream, exit on keyboard interrupt
-        try:
-            while True:
-                # Remove the "\n" to remove the empty line after every print
-                # Using print to keep the same color and structure of docker logs
-                print(logs_stream.next().decode().replace("\n", ""))
-                # Sleep 0.1ms, keep printing logs very fast.
-                # TODO: Better method?.
-                time.sleep(0.0001)
-        except KeyboardInterrupt:
-            logging.info("Recieved keyboard interrupt, exiting.")
-            sys.exit()
-
-    def get_archive(self, path):
-        """Wrapper over get_archive api in the spawner container"""
-        return container_tools.get_archive(path, self.regex_spawner_name)
-
-    def put_archive(self, path, data):
-        """Wrapper over put_archive api in the spawner container"""
-        return container_tools.put_archive(path, data, self.regex_spawner_name)
-
-    def restart(self):
-        """Wrapper over restart api in the spawner container"""
-        return container_tools.restart(self.regex_spawner_name)
-
-    def execute(self, args):
+    def execute(self):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute spawner behaviour with args: {args}")
+        logger.debug(f"Execute spawner behaviour with args: {self.args}")
         try:
-            return self.prop_to_method[args.sub_command](args)
+            return self.prop_to_method[self.args.sub_command]()
         except KeyError:
-            logging.error(
+            logger.error(
                 "Invalid command: "
-                + args.sub_command
+                + self.args.sub_command
                 + ". Supported sub_commands are: ("
                 + " ".join(map(str, self.prop_to_method))
                 + ")"
@@ -179,5 +83,5 @@ if __name__ == "__main__":
         help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
     )
     args = parser.parse_args()
-    spawner = Spawner()
-    spawner.execute(args)
+    spawner = Spawner(args)
+    spawner.execute()

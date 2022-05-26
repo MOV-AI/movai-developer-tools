@@ -2,7 +2,7 @@
 import argparse
 import sys
 
-import movai_developer_tools.utils.logger as logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.movros.expose_network.operation_executer import (
     ExposeNetwork,
 )
@@ -27,7 +27,7 @@ def handle():
     try:
         executor = executors[args.command]()
     except KeyError:
-        logging.error(
+        logger.error(
             "Invalid command: "
             + args.command
             + ". Supported commands are: ("
