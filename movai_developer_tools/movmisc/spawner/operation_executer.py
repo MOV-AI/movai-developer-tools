@@ -14,18 +14,18 @@ class Spawner:
         self.regex_spawner_name = "^spawner-.*"
         # Property to method map
         self.prop_to_method = {
-            "ip": self.get_spawner_ip,
-            "id": self.get_spawner_id,
-            "name": self.get_spawner_name,
-            "gateway": self.get_spawner_gateway,
-            "userspace-dir": self.get_spawner_userspace_dir,
-            "exec": self.spawner_exec,
+            "ip": self.get_ip,
+            "id": self.get_id,
+            "name": self.get_name,
+            "gateway": self.get_gateway,
+            "userspace-dir": self.get_userspace_dir,
+            "exec": self.exec,
             "logs": self.logs,
         }
         # Container userspace bind location
         self.container_bind_dir = "/opt/mov.ai/user"
 
-    def get_spawner_ip(self, args):
+    def get_ip(self, args):
         """Get ip address of the first network of a container found using regex of the name"""
         ip = container_tools.get_container_ip(self.regex_spawner_name)
         # Log if not silent
@@ -33,7 +33,7 @@ class Spawner:
             logging.info(f"IPAddress: {ip}")
         return ip
 
-    def get_spawner_id(self, args):
+    def get_id(self, args):
         """Get short id of a container found using regex of the name"""
         short_id = container_tools.get_container_id(self.regex_spawner_name)
         # Log if not silent
@@ -41,7 +41,7 @@ class Spawner:
             logging.info(f"Short ID: {short_id}")
         return short_id
 
-    def get_spawner_name(self, args):
+    def get_name(self, args):
         """Get the name of a container found using regex"""
         name = container_tools.get_container_name(self.regex_spawner_name)
         # Log if not silent
@@ -49,7 +49,7 @@ class Spawner:
             logging.info(f"Name: {name}")
         return name
 
-    def get_spawner_gateway(self, args):
+    def get_gateway(self, args):
         """Get gateway of the first network of a container found using regex of the name"""
         gateway = container_tools.get_container_gateway(self.regex_spawner_name)
         # Log if not silent
@@ -57,7 +57,7 @@ class Spawner:
             logging.info(f"Gateway: {gateway}")
         return gateway
 
-    def get_spawner_userspace_dir(self, args):
+    def get_userspace_dir(self, args):
         """Return userspace that is mounted in the spawner"""
         spawner_container = container_tools.get_container_obj_by_name_regex(
             self.regex_spawner_name
@@ -77,7 +77,7 @@ class Spawner:
         logging.error("Userspace not mounted.")
         sys.exit(1)
 
-    def spawner_exec(self, args):
+    def exec(self, args):
         """Execute given command inside the spawner, user:movai"""
         spawner_container = container_tools.get_container_obj_by_name_regex(
             self.regex_spawner_name
