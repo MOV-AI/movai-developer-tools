@@ -16,7 +16,7 @@ def get_manifest_files_in_spawner(args) -> list:
     # Instanciate spawner class
     spawner_cls = Spawner()
 
-    # Make required args for spawner_exec method
+    # Make required args for exec method
     args.silent = True
     args.user = "movai"
     args.env = []
@@ -25,12 +25,10 @@ def get_manifest_files_in_spawner(args) -> list:
     # Docker exec can't be avoided here :(
     if args.command == "re-install":
         args.cmd = f"find {metadata_install_dir} -name {manifest_regex}"
-        manifest_files_in_spawner = (
-            spawner_cls.spawner_exec(args).decode("ascii").split()
-        )
+        manifest_files_in_spawner = spawner_cls.exec(args).decode("ascii").split()
     else:
         # Run spawner container command with args
-        host_userspace = spawner_cls.get_spawner_userspace_dir(args)
+        host_userspace = spawner_cls.get_userspace_dir(args)
 
         # If user provides directory argument use that as root dir, else use CWD
         if args.directory:
@@ -94,7 +92,7 @@ def iterative_backup_action(args, manifest_files_in_spawner) -> None:
 
         # Execute if not dry run
         if not args.dry:
-            spawner_cls.spawner_exec(args)
+            spawner_cls.exec(args)
         else:
             logging.info("Dry run mode, please remove the dry run args to execute")
 

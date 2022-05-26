@@ -114,7 +114,7 @@ class ExposeNetwork:
         args.silent = True
         # Get spawner name
         args.sub_command = "name"
-        spawner_name = self.spawner.get_spawner_name(args)
+        spawner_name = self.spawner.get_name(args)
         # Get ip of the spawner and ros-master container networks
         args.sub_command = "ip"
         spawner_ip = self.spawner.execute(args)
