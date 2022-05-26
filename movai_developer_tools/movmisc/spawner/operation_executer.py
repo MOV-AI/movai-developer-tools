@@ -111,6 +111,18 @@ class Spawner:
             logging.info("Recieved keyboard interrupt, exiting.")
             sys.exit()
 
+    def get_archive(self, path):
+        """Wrapper over get_archive api in the spawner container"""
+        return container_tools.get_archive(path, self.regex_spawner_name)
+
+    def put_archive(self, path, data):
+        """Wrapper over put_archive api in the spawner container"""
+        return container_tools.put_archive(path, data, self.regex_spawner_name)
+
+    def restart(self):
+        """Wrapper over restart api in the spawner container"""
+        return container_tools.restart(self.regex_spawner_name)
+
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
         logging.debug(f"Execute spawner behaviour with args: {args}")
