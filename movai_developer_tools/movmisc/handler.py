@@ -38,7 +38,7 @@ def handle():
     args = parser.parse_args()
 
     try:
-        executor = executors[args.command]()
+        executor = executors[args.command](args)
     except KeyError:
         logging.error(
             "Invalid command: "
@@ -49,7 +49,7 @@ def handle():
         )
         sys.exit()
 
-    executor.execute(args)
+    executor.execute()
 
 
 if __name__ == "__main__":

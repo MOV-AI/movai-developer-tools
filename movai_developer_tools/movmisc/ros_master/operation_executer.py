@@ -1,81 +1,41 @@
 """Module where all the behaviour of a command should be destributed."""
 import sys
-from movai_developer_tools.utils import logger as logging, container_tools
+from movai_developer_tools.utils import logger as logging
+from movai_developer_tools.utils.container_tools import ContainerTools
 
 
-class RosMaster:
+class RosMaster(ContainerTools):
     """Main class to get properties of the active ros-master container"""
 
-    def __init__(self):
+    def __init__(self, args):
         """If your executor requires some initialization, use the class constructor for it"""
         logging.debug("RosMaster Init")
         # Reg expressions for finding the ros-master container
         self.regex_ros_master_name = "^ros-master-*"
+        super().__init__(self.regex_ros_master_name)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,
             "id": self.get_id,
             "name": self.get_name,
             "gateway": self.get_gateway,
+            "restart": self.restart,
+            "userspace-dir": self.get_userspace_dir,
+            "exec": self.exec,
+            "logs": self.logs,
         }
+        # Pass args as instance variable
+        self.args = args
 
-    def get_ip(self, args):
-        """Get ip address of the first network of a container found using regex of the name"""
-        ip = container_tools.get_container_ip(self.regex_ros_master_name)
-        if ip is None:
-            logging.error(
-                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"IPAddress: {ip}")
-        return ip
-
-    def get_id(self, args):
-        """Get short id of a container found using regex of the name"""
-        short_id = container_tools.get_container_id(self.regex_ros_master_name)
-        if short_id is None:
-            logging.error(
-                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Short ID: {short_id}")
-        return short_id
-
-    def get_name(self, args):
-        """Get the name of a container found using regex"""
-        name = container_tools.get_container_name(self.regex_ros_master_name)
-        if name is None:
-            logging.error(
-                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Name: {name}")
-        return name
-
-    def get_gateway(self, args):
-        """Get gateway of the first network of a container found using regex of the name"""
-        gateway = container_tools.get_container_gateway(self.regex_ros_master_name)
-        if gateway is None:
-            logging.error(
-                f"Did not find a runnning ros-master container: Regex used {self.regex_ros_master_name}"
-            )
-        else:
-            if not args.silent:
-                logging.info(f"Gateway: {gateway}")
-        return gateway
-
-    def execute(self, args):
+    def execute(self):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute RosMaster behaviour with args: {args}")
+        logging.debug(f"Execute RosMaster behaviour with args: {self.args}")
         try:
-            return self.prop_to_method[args.sub_command](args)
+            return self.prop_to_method[self.args.sub_command]()
         except KeyError:
             logging.error(
                 "Invalid command: "
-                + args.sub_command
+                + self.args.sub_command
                 + ". Supported sub-commands are: ("
                 + " ".join(map(str, self.prop_to_method))
                 + ")"
@@ -103,9 +63,9 @@ if __name__ == "__main__":
         action="store_true",
     )
     parser.add_argument(
-        "property",
-        help="Property of the component to be fetched, options are (ip, id, name, gateway)",
+        "sub_command",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
     )
     args = parser.parse_args()
-    spawner = RosMaster()
-    spawner.execute(args)
+    spawner = RosMaster(args)
+    spawner.execute()
