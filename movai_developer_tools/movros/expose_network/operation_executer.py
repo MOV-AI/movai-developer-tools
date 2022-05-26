@@ -39,6 +39,9 @@ class ExposeNetwork:
         # RosMaster class
         self.ros_master = RosMaster()
 
+        # ROS distro in host
+        self.ros_distro = None
+
     def validate_ros_installation(self):
         """Validate supported ROS installation in the host"""
         # Validate if ROS LTS is installed in the host
@@ -46,6 +49,7 @@ class ExposeNetwork:
         for ros_distro in self.supported_ros_distros:
             if Path(f"{self.ros_install_dir}" + f"/{ros_distro}/setup.bash").is_file():
                 ros_installed = True
+                self.ros_distro = ros_distro
                 return True
 
         # Exit if ros is not installed
@@ -217,8 +221,13 @@ class ExposeNetwork:
             data = open(self.temp_bashrc_tar, "rb").read()
             self.spawner.put_archive(self.bashrc_dir, data)
 
+        # Print user actions
         logging.info(
-            f"spawner_ip: {spawner_ip}, ros_master_ip: {ros_master_ip}, spawner_gateway: {spawner_gateway}"
+            "Please execute these below commands in your terminal to finalize the procedure. \n \
+                Use rostopic list and rostopic echo <topic> to confirm your have access to topics in your host:)"
+        )
+        print(
+            f'\nsource {self.ros_install_dir}/{self.ros_distro}/setup.bash\nexport ROS_IP="{spawner_gateway}"\nexport ROS_MASTER_URI="http://{ros_master_ip}:11311/"'
         )
 
     @staticmethod
