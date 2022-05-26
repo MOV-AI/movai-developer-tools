@@ -1,5 +1,5 @@
 """Module that contains a wrapper container_tools to ease interacting with the python docker module"""
-from movai_developer_tools.utils.logger import logging
+from .logger import logging
 import docker
 import sys
 
@@ -45,6 +45,24 @@ def get_container_gateway(regex):
     network = next(iter(networks))
     gateway = networks[network]["Gateway"]
     return gateway
+
+
+def get_archive(path, regex):
+    """Wrapper over get_archive api in the container found using regex of the name"""
+    container = get_container_obj_by_name_regex(regex)
+    return container.get_archive(path)
+
+
+def put_archive(path, data, regex):
+    """Wrapper over put_archive api in the container found using regex of the name"""
+    container = get_container_obj_by_name_regex(regex)
+    return container.put_archive(path, data)
+
+
+def restart(regex):
+    """Wrapper over restart api in the container found using regex of the name"""
+    container = get_container_obj_by_name_regex(regex)
+    return container.restart()
 
 
 if __name__ == "__main__":
