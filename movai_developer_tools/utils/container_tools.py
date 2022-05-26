@@ -1,5 +1,5 @@
 """Module that contains a wrapper container_tools to ease interacting with the python docker module"""
-from movai_developer_tools.utils.logger import logging
+from movai_developer_tools.utils import logger
 import docker
 import sys
 import time
@@ -21,7 +21,7 @@ class ContainerTools:
         if containers:
             return containers[0]
         else:
-            logging.error(
+            logger.error(
                 f"Did not find a runnning container with name search: Regex used {self.regex}"
             )
             sys.exit(1)
@@ -34,7 +34,7 @@ class ContainerTools:
         ip = networks[network]["IPAddress"]
         # Log if not silent
         if not self.args.silent:
-            logging.info(f"IPAddress: {ip}")
+            logger.info(f"IPAddress: {ip}")
         return ip
 
     def get_id(self):
@@ -43,7 +43,7 @@ class ContainerTools:
         short_id = container.short_id
         # Log if not silent
         if not self.args.silent:
-            logging.info(f"Short ID: {short_id}")
+            logger.info(f"Short ID: {short_id}")
         return short_id
 
     def get_name(self):
@@ -52,7 +52,7 @@ class ContainerTools:
         name = container.name
         # Log if not silent
         if not self.args.silent:
-            logging.info(f"Name: {name}")
+            logger.info(f"Name: {name}")
         return name
 
     def get_gateway(self):
@@ -63,7 +63,7 @@ class ContainerTools:
         gateway = networks[network]["Gateway"]
         # Log if not silent
         if not self.args.silent:
-            logging.info(f"Gateway: {gateway}")
+            logger.info(f"Gateway: {gateway}")
         return gateway
 
     def get_archive(self, path):
@@ -93,11 +93,11 @@ class ContainerTools:
                 userspace_dir = _split[0]
                 # Log if not silent
                 if not self.args.silent:
-                    logging.info(f"Userspace directory: {userspace_dir}")
+                    logger.info(f"Userspace directory: {userspace_dir}")
                 return userspace_dir
 
         # Exit if userspace is not found
-        logging.info("Userspace not mounted.")
+        logger.info("Userspace not mounted.")
         sys.exit(1)
 
     def logs(self):
@@ -115,7 +115,7 @@ class ContainerTools:
                 # TODO: Better method that while loop?.
                 time.sleep(0.0001)
         except KeyboardInterrupt:
-            logging.info("Recieved keyboard interrupt, exiting.")
+            logger.info("Recieved keyboard interrupt, exiting.")
             sys.exit()
 
     def exec(self):

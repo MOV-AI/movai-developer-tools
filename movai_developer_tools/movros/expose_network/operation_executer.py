@@ -1,5 +1,5 @@
 """Module where all the behaviour of a command should be destributed."""
-import movai_developer_tools.utils.logger as logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
 from movai_developer_tools.movmisc.ros_master.operation_executer import RosMaster
 from pathlib import Path
@@ -14,7 +14,7 @@ class ExposeNetwork:
 
     def __init__(self):
         """If your executor requires some initialization, use the class constructor for it"""
-        logging.debug("ExposeNetwork Init")
+        logger.debug("ExposeNetwork Init")
         # ROS instllation dir
         self.ros_install_dir = "/opt/ros"
         # Supported ROS distors
@@ -54,7 +54,7 @@ class ExposeNetwork:
 
         # Exit if ros is not installed
         if not ros_installed:
-            logging.error(
+            logger.error(
                 f"No supported ROS distribution ({self.supported_ros_distros}) is installed, aborting ROS setup"
             )
             sys.exit(1)
@@ -106,7 +106,7 @@ class ExposeNetwork:
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute ExposeNetwork behaviour with args: {args}")
+        logger.debug(f"Execute ExposeNetwork behaviour with args: {args}")
 
         # Make args for calling other services
         # Silence the log output from other services because the function is being used internally
@@ -148,7 +148,7 @@ class ExposeNetwork:
 
         # If export does not exist, add it, then request restart
         if not export_exists:
-            logging.info(
+            logger.info(
                 f"ROS_IP Not exported in {spawner_name} docker-entrypoint, exporting: {spawner_ip}."
             )
             if set_e_lineno is not None:
@@ -158,7 +158,7 @@ class ExposeNetwork:
                     + content[set_e_lineno + 1 :]
                 )
             else:
-                logging.error(
+                logger.error(
                     "Not able to find the line number of the set -e command in docker-entrypoint.sh script, exiting"
                 )
                 sys.exit(1)
@@ -185,7 +185,7 @@ class ExposeNetwork:
             if reply:
                 self.spawner.restart()
             else:
-                logging.info("Skipping restart!")
+                logger.info("Skipping restart!")
 
         # Check if export is in spawner's bashrc
         # Get bash.rc file
@@ -200,7 +200,7 @@ class ExposeNetwork:
 
         # If export does not exist, add it
         if not export_exists:
-            logging.info(
+            logger.info(
                 f"ROS_IP Not exported in {spawner_name} bashrc, exporting: {spawner_ip}."
             )
             # Add a new line before
@@ -223,7 +223,7 @@ class ExposeNetwork:
             self.spawner.put_archive(self.bashrc_dir, data)
 
         # Print user actions
-        logging.info(
+        logger.info(
             "Please execute these below commands in your terminal to finalize the procedure.\nUse rostopic list and rostopic echo <topic> to confirm your have access to topics in your host:)"
         )
         print(

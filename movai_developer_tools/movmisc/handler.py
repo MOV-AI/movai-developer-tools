@@ -2,7 +2,7 @@
 import argparse
 import sys
 
-import movai_developer_tools.utils.logger as logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.movmisc.spawner.operation_executer import (
     Spawner,
 )
@@ -40,7 +40,7 @@ def handle():
     try:
         executor = executors[args.command](args)
     except KeyError:
-        logging.error(
+        logger.error(
             "Invalid command: "
             + args.command
             + ". Supported commands are: ("

@@ -1,4 +1,4 @@
-from movai_developer_tools.utils import logger as logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.utils import backup_helper
 
 
@@ -7,11 +7,11 @@ class Importer:
 
     def __init__(self):
         """If your executor requires some initialization, use the class constructor for it"""
-        logging.debug("Importer Init")
+        logger.debug("Importer Init")
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute importer behaviour with args: {args}")
+        logger.debug(f"Execute importer behaviour with args: {args}")
         manifest_files_in_spawner = backup_helper.get_manifest_files_in_spawner(args)
 
         # Execute

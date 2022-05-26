@@ -1,6 +1,6 @@
 """Module where all the behaviour of a command should be destributed."""
 import sys
-from movai_developer_tools.utils import logger as logging
+from movai_developer_tools.utils import logger
 from movai_developer_tools.utils.container_tools import ContainerTools
 
 
@@ -9,7 +9,7 @@ class Spawner(ContainerTools):
 
     def __init__(self, args):
         """If your executor requires some initialization, use the class constructor for it"""
-        logging.debug("Spawner Init")
+        logger.debug("Spawner Init")
         # Reg expressions for finding the spawner container
         self.regex_spawner_name = "^spawner-.*"
         super().__init__(self.regex_spawner_name)
@@ -29,11 +29,11 @@ class Spawner(ContainerTools):
 
     def execute(self):
         """Method where the main behaviour of the executer should be"""
-        logging.debug(f"Execute spawner behaviour with args: {self.args}")
+        logger.debug(f"Execute spawner behaviour with args: {self.args}")
         try:
             return self.prop_to_method[self.args.sub_command]()
         except KeyError:
-            logging.error(
+            logger.error(
                 "Invalid command: "
                 + self.args.sub_command
                 + ". Supported sub_commands are: ("
