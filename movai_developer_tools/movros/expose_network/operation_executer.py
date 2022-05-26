@@ -19,12 +19,21 @@ class ExposeNetwork:
         self.ros_install_dir = "/opt/ros"
         # Supported ROS distors
         self.supported_ros_distros = ["noetic", "melodic"]
+
         # Docker-entrypoint dir
-        self.entrypoint_src = "/usr/local/bin"
+        self.entrypoint_dir = "/usr/local/bin"
         # Docker-entrypoint filename
-        self.entrypoint_file_name = "docker-entrypoint.sh"
+        self.entrypoint_filename = "docker-entrypoint.sh"
         # Temporary place to store the tar file
-        self.temp_tar = "/tmp/docker-entrypoint.tar"
+        self.temp_ep_tar = "/tmp/docker-entrypoint.tar"
+
+        # Bashrc dir
+        self.bashrc_dir = "/opt/mov.ai"
+        # Bashrc filename
+        self.bashrc_filename = ".bashrc"
+        # Temporary place to store the tar file
+        self.temp_bashrc_tar = "/tmp/bashrc.tar"
+
         # Spawner class
         self.spawner = Spawner()
         # RosMaster class
@@ -46,13 +55,11 @@ class ExposeNetwork:
             )
             sys.exit(1)
 
-    def get_file_content(self) -> tuple:
+    def get_file_content(self, file) -> tuple:
         """Returns a tuple (content, stats). Content is with binary string items of the given file in the spawner container.
         For more information on the stats, follow this link: https://docker-py.readthedocs.io/en/stable/containers.html#docker.models.containers.Container.get_archive
         """
-        bits, stats = self.spawner.get_archive(
-            self.entrypoint_src + "/" + self.entrypoint_file_name
-        )
+        bits, stats = self.spawner.get_archive(file)
         # Use bytesio file to generate a tarfile to read content
         with BytesIO() as file_obj:
             for i in bits:
@@ -64,7 +71,7 @@ class ExposeNetwork:
                     content = file.readlines()
         return content, stats
 
-    def write_file_to_tar(self, tardata, tarinfo):
+    def write_file_to_tar(self, tarname, tardata, tarinfo):
         """Write a tar file given a binary string (tardata) and tarinfo"""
         with BytesIO() as f_bytesio:
             # Make tarfile with modified info
@@ -72,7 +79,7 @@ class ExposeNetwork:
                 tar.addfile(tarinfo=tarinfo, fileobj=BytesIO(tardata))
             f_bytesio.seek(0)
             # Write tarfile
-            with open(self.temp_tar, "wb") as out:
+            with open(tarname, "wb") as out:
                 out.write(f_bytesio.read())
 
     def yes_or_no(self, question) -> bool:
@@ -84,6 +91,14 @@ class ExposeNetwork:
             return False
         else:
             return self.yes_or_no(question)
+
+    def generate_tarinfo(self, filename, data, mode):
+        """Generate tarinfo from args"""
+        tar_info = tarfile.TarInfo(filename)
+        tar_info.mtime = time.time()
+        tar_info.mode = mode
+        tar_info.size = len(data)
+        return tar_info
 
     def execute(self, args):
         """Method where the main behaviour of the executer should be"""
@@ -108,7 +123,9 @@ class ExposeNetwork:
         self.validate_ros_installation()
 
         # Get docker-entrypoint.sh
-        content, stats = self.get_file_content()
+        content, stats = self.get_file_content(
+            self.entrypoint_dir + "/" + self.entrypoint_filename
+        )
 
         # Check if export line exists, and get set -e string line number
         export_bstring = f"export ROS_IP={spawner_ip}\n".encode()
@@ -125,33 +142,37 @@ class ExposeNetwork:
             if set_e_bstring == line:
                 set_e_lineno = i
 
-        # If export does not exist, add and ask for restart
+        # If export does not exist, add it, then request restart
         if not export_exists:
             logging.info(
-                f"ROS_IP Not exported in {spawner_name}, exporting: {spawner_ip}."
+                f"ROS_IP Not exported in {spawner_name} docker-entrypoint, exporting: {spawner_ip}."
             )
-            content = (
-                content[: set_e_lineno + 1]
-                + [export_bstring]
-                + content[set_e_lineno + 1 :]
-            )
+            if set_e_lineno is not None:
+                content = (
+                    content[: set_e_lineno + 1]
+                    + [export_bstring]
+                    + content[set_e_lineno + 1 :]
+                )
+            else:
+                logging.error(
+                    "Not able to find the line number of the set -e command in docker-entrypoint.sh script, exiting"
+                )
+                sys.exit(1)
 
             # Save modified file to temporary tar
             # Join mofied list
-            modified_entrypoint = b"".join(content)
-            # Update tarinfo
+            modified_content = b"".join(content)
             # Generate tarinfo object from stats
-            tar_info = tarfile.TarInfo(self.entrypoint_file_name)
-            tar_info.mtime = time.time()
-            tar_info.mode = stats["mode"]
-            tar_info.size = len(modified_entrypoint)
+            tar_info = self.generate_tarinfo(
+                self.entrypoint_filename, modified_content, stats["mode"]
+            )
 
             # Save
-            self.write_file_to_tar(modified_entrypoint, tar_info)
+            self.write_file_to_tar(self.temp_ep_tar, modified_content, tar_info)
 
             # Copy modified file to docker
-            data = open(self.temp_tar, "rb").read()
-            self.spawner.put_archive(self.entrypoint_src, data)
+            data = open(self.temp_ep_tar, "rb").read()
+            self.spawner.put_archive(self.entrypoint_dir, data)
 
             # Request restart
             reply = self.yes_or_no(
@@ -161,6 +182,40 @@ class ExposeNetwork:
                 self.spawner.restart()
             else:
                 logging.info("Skipping restart!")
+
+        # Check if export is in spawner's bashrc
+        # Get bash.rc file
+        content, stats = self.get_file_content(
+            self.bashrc_dir + "/" + self.bashrc_filename
+        )
+        export_exists = False
+        for line in content:
+            if export_bstring == line:
+                export_exists = True
+                break
+
+        # If export does not exist, add it
+        if not export_exists:
+            logging.info(
+                f"ROS_IP Not exported in {spawner_name} bashrc, exporting: {spawner_ip}."
+            )
+            content.append(export_bstring)
+
+            # Save modified file to temporary tar
+            # Join mofied list
+            modified_content = b"".join(content)
+            # Update tarinfo
+            # Generate tarinfo object from stats
+            tar_info = self.generate_tarinfo(
+                self.bashrc_filename, modified_content, stats["mode"]
+            )
+
+            # Save
+            self.write_file_to_tar(self.temp_bashrc_tar, modified_content, tar_info)
+
+            # Copy modified file to docker
+            data = open(self.temp_bashrc_tar, "rb").read()
+            self.spawner.put_archive(self.bashrc_dir, data)
 
         logging.info(
             f"spawner_ip: {spawner_ip}, ros_master_ip: {ros_master_ip}, spawner_gateway: {spawner_gateway}"
