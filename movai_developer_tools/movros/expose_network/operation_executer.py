@@ -89,7 +89,7 @@ class ExposeNetwork:
     def yes_or_no(self, question) -> bool:
         """Return bool based on user input"""
         reply = str(input(question + " (Y/n): ")).lower().strip()
-        if reply[0] == "y":
+        if reply == "" or reply[0] == "y":
             return True
         if reply[0] == "n":
             return False
@@ -154,7 +154,7 @@ class ExposeNetwork:
             if set_e_lineno is not None:
                 content = (
                     content[: set_e_lineno + 1]
-                    + [export_bstring]
+                    + [b"\n" + export_bstring]
                     + content[set_e_lineno + 1 :]
                 )
             else:
@@ -180,7 +180,7 @@ class ExposeNetwork:
 
             # Request restart
             reply = self.yes_or_no(
-                f"Container ${spawner_name} needs to be restarted for changes to take effect. Do you want to restart ${spawner_name} now?"
+                f"Container {spawner_name} needs to be restarted for changes to take effect. Do you want to restart {spawner_name} now?"
             )
             if reply:
                 self.spawner.restart()
@@ -203,7 +203,8 @@ class ExposeNetwork:
             logging.info(
                 f"ROS_IP Not exported in {spawner_name} bashrc, exporting: {spawner_ip}."
             )
-            content.append(export_bstring)
+            # Add a new line before
+            content += [b"\n" + export_bstring]
 
             # Save modified file to temporary tar
             # Join mofied list
@@ -223,8 +224,7 @@ class ExposeNetwork:
 
         # Print user actions
         logging.info(
-            "Please execute these below commands in your terminal to finalize the procedure. \n \
-                Use rostopic list and rostopic echo <topic> to confirm your have access to topics in your host:)"
+            "Please execute these below commands in your terminal to finalize the procedure.\nUse rostopic list and rostopic echo <topic> to confirm your have access to topics in your host:)"
         )
         print(
             f'\nsource {self.ros_install_dir}/{self.ros_distro}/setup.bash\nexport ROS_IP="{spawner_gateway}"\nexport ROS_MASTER_URI="http://{ros_master_ip}:11311/"'
