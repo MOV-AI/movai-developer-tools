@@ -45,10 +45,6 @@ class RosMaster(ContainerTools):
     @staticmethod
     def add_expected_arguments(parser):
         """Method exposed for the handle to append our executer arguments."""
-        # parser.add_argument(
-        #     "property",
-        #     help="Property of the ros-master to be fetched, options are (ip, id, name)",
-        # )
 
 
 if __name__ == "__main__":

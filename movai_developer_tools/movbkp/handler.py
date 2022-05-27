@@ -1,7 +1,7 @@
 "Recursively imports, exports, removes or re-installs all manifest.txt files found under the directory"
 import argparse
 import sys
-from movai_developer_tools.utils.logger import logger
+from movai_developer_tools.utils import logger
 from movai_developer_tools.movbkp.import_metadata.operation_executer import Importer
 from movai_developer_tools.movbkp.export_metadata.operation_executer import Exporter
 from movai_developer_tools.movbkp.remove_metadata.operation_executer import Remover
@@ -47,7 +47,7 @@ def handle():
     args = parser.parse_args()
 
     try:
-        executor = executors[args.command]()
+        executor = executors[args.command](args)
     except KeyError:
         logger.error(
             "Invalid command: "
@@ -58,7 +58,7 @@ def handle():
         )
         sys.exit()
 
-    executor.execute(args)
+    executor.execute()
 
 
 if __name__ == "__main__":

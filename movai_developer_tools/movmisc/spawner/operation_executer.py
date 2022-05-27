@@ -45,26 +45,6 @@ class Spawner(ContainerTools):
     @staticmethod
     def add_expected_arguments(parser):
         """Method exposed for the handle to append our executer arguments."""
-        parser.add_argument(
-            "sub_command",
-            help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
-        )
-        parser.add_argument(
-            "--cmd",
-            help="Command to be executed in the spawner",
-            default="echo 'Hi there, I am an echo being executed in the spawner container. Please use [--cmd EXEC_COMMAND] to specify the command you want to run'",
-        )
-        parser.add_argument(
-            "--user",
-            help="User to execute docker exec command as. Default: movai",
-            default="movai",
-        )
-        parser.add_argument(
-            "--env",
-            help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
-            nargs="+",
-            default=[],
-        )
 
 
 if __name__ == "__main__":
