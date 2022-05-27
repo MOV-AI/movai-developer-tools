@@ -6,9 +6,13 @@ from movai_developer_tools.utils import logger
 from movai_developer_tools.movros.expose_network.operation_executer import (
     ExposeNetwork,
 )
+from movai_developer_tools.movros.catkin_build.operation_executer import (
+    CatkinBuild,
+)
 
 executors = {
     "expose-network": ExposeNetwork,
+    "catkin-build": CatkinBuild,
 }
 
 
