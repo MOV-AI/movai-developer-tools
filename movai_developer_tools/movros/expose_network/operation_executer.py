@@ -12,7 +12,7 @@ import time
 class ExposeNetwork:
     """Main class to expose ros topics, services and parameters from docker to the host"""
 
-    def __init__(self):
+    def __init__(self, args):
         """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("ExposeNetwork Init")
         # ROS instllation dir
@@ -34,10 +34,12 @@ class ExposeNetwork:
         # Temporary place to store the tar file
         self.temp_bashrc_tar = "/tmp/bashrc.tar"
 
+        # Pass self.args as instance variable
+        self.args = args
         # Spawner class
-        self.spawner = Spawner()
+        self.spawner = Spawner(args)
         # RosMaster class
-        self.ros_master = RosMaster()
+        self.ros_master = RosMaster(args)
 
         # ROS distro in host
         self.ros_distro = None
@@ -104,24 +106,24 @@ class ExposeNetwork:
         tar_info.size = len(data)
         return tar_info
 
-    def execute(self, args):
+    def execute(self):
         """Method where the main behaviour of the executer should be"""
-        logger.debug(f"Execute ExposeNetwork behaviour with args: {args}")
+        logger.debug(f"Execute ExposeNetwork behaviour with self.args: {self.args}")
 
         # Make args for calling other services
         # Silence the log output from other services because the function is being used internally
         # Only the return value is used and not the printed one
-        args.silent = True
+        self.args.silent = True
         # Get spawner name
-        args.sub_command = "name"
-        spawner_name = self.spawner.get_name(args)
+        self.args.sub_command = "name"
+        spawner_name = self.spawner.get_name()
         # Get ip of the spawner and ros-master container networks
-        args.sub_command = "ip"
-        spawner_ip = self.spawner.execute(args)
-        ros_master_ip = self.ros_master.execute(args)
+        self.args.sub_command = "ip"
+        spawner_ip = self.spawner.execute()
+        ros_master_ip = self.ros_master.execute()
         # Get gateway of the spawner container network
-        args.sub_command = "gateway"
-        spawner_gateway = self.spawner.execute(args)
+        self.args.sub_command = "gateway"
+        spawner_gateway = self.spawner.execute()
 
         # Validate ROS host installation
         self.validate_ros_installation()

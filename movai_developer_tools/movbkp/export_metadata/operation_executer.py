@@ -1,21 +1,23 @@
 from movai_developer_tools.utils import logger
-from movai_developer_tools.utils import backup_helper
+from movai_developer_tools.utils.backup_helper import BackupHelper
 
 
-class Exporter:
+class Exporter(BackupHelper):
     """Main class to export metadata using the backup tool in the spawner container"""
 
-    def __init__(self):
+    def __init__(self, args):
         """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("Exporter Init")
+        # Call superclass init
+        super().__init__(args)
+        # Pass args as instance variable
+        self.args = args
 
-    def execute(self, args):
+    def execute(self):
         """Method where the main behaviour of the executer should be"""
-        logger.debug(f"Execute exporter behaviour with args: {args}")
-        manifest_files_in_spawner = backup_helper.get_manifest_files_in_spawner(args)
-
+        logger.debug(f"Execute exporter behaviour with self.args: {self.args}")
         # Execute
-        backup_helper.iterative_backup_action(args, manifest_files_in_spawner)
+        self.iterative_backup_action()
 
     @staticmethod
     def add_expected_arguments(parser):

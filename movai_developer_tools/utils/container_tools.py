@@ -12,7 +12,7 @@ class ContainerTools:
         """Constructor for container tools class"""
         self.regex = regex
         # Container userspace bind location
-        self.container_bind_dir = "/opt/mov.ai/user"
+        self.userspace_bind_dir = "/opt/mov.ai/user"
 
     def get_obj_by_name_regex(self):
         """Return a container object with matching regex name search, if not found exit"""
@@ -89,7 +89,7 @@ class ContainerTools:
         userspace_dir = None
         for bind in binds:
             _split = bind.split(":")
-            if _split[1] == self.container_bind_dir:
+            if _split[1] == self.userspace_bind_dir:
                 userspace_dir = _split[0]
                 # Log if not silent
                 if not self.args.silent:
@@ -128,8 +128,8 @@ class ContainerTools:
         )
         # Log if not silent
         if not self.args.silent:
-            # Log output in ascii
-            print(f"{output.decode('ascii')}")
+            # Log output. Decode for pretty print
+            print(f"{output.decode()}")
         return output
 
 
