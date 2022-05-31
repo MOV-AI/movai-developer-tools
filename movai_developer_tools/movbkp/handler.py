@@ -35,7 +35,8 @@ def handle():
         action="store_true",
     )
     parser.add_argument(
-        "-dir" "--dir",
+        "-dir",
+        "--dir",
         "--directory",
         help="Directory to search manifests, defaults to CWD",
     )
