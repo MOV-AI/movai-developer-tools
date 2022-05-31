@@ -21,6 +21,7 @@ setuptools.setup(
             "movros = movai_developer_tools.movros.handler:handle",
             "movmisc = movai_developer_tools.movmisc.handler:handle",
             "movbkp = movai_developer_tools.movbkp.handler:handle",
+            "movcontext = movai_developer_tools.movcontext.handler:handle",
         ]
     },
 )
