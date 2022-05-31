@@ -1,6 +1,6 @@
 """Module that contains a set of functions to ease interacting with the metadata backup functionality"""
 from movai_developer_tools.utils import logger
-from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
+from movai_developer_tools.movcontainer.spawner.operation_executer import Spawner
 import pathlib
 import sys
 

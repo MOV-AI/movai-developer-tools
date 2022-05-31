@@ -19,7 +19,7 @@ setuptools.setup(
     entry_points={
         "console_scripts": [
             "movros = movai_developer_tools.movros.handler:handle",
-            "movmisc = movai_developer_tools.movmisc.handler:handle",
+            "movcontainer = movai_developer_tools.movcontainer.handler:handle",
             "movbkp = movai_developer_tools.movbkp.handler:handle",
         ]
     },

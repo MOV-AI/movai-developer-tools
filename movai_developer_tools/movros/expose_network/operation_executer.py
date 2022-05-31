@@ -1,7 +1,7 @@
 """Module where all the behaviour of a command should be destributed."""
 from movai_developer_tools.utils import logger
-from movai_developer_tools.movmisc.spawner.operation_executer import Spawner
-from movai_developer_tools.movmisc.ros_master.operation_executer import RosMaster
+from movai_developer_tools.movcontainer.spawner.operation_executer import Spawner
+from movai_developer_tools.movcontainer.ros_master.operation_executer import RosMaster
 from pathlib import Path
 import sys
 import tarfile
