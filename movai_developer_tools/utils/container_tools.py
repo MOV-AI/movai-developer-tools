@@ -187,7 +187,12 @@ class ContainerTools:
             logger.info("Recieved keyboard interrupt, exiting.")
             sys.exit()
 
-    def exec_run(self) -> ExecResult:
+    def exec_run(
+        self,
+        cmd: str = "echo 'Hi there, I am an echo being executed in the container you have chosen. Please use [--cmd=EXEC_COMMAND] to specify the command you want to run'",
+        user: str = "movai",
+        environment: list = [],
+    ) -> ExecResult:
         """Wrapper over exec_run API.
 
         Returns:
@@ -203,9 +208,9 @@ class ContainerTools:
 
         """
         exec_result = self.container.exec_run(
-            cmd=["bash", "-c", self.args.cmd],
-            user=self.args.user,
-            environment=self.args.env,
+            cmd=["bash", "-c", cmd],
+            user=user,
+            environment=environment,
         )
         # Log if not silent
         if not self.silent:

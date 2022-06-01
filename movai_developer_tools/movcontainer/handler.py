@@ -35,18 +35,15 @@ def handle():
     parser.add_argument(
         "--cmd",
         help="Command to be executed in the spawner",
-        default="echo 'Hi there, I am an echo being executed in the container you have chosen. Please use [--cmd=EXEC_COMMAND] to specify the command you want to run'",
     )
     parser.add_argument(
         "--user",
         help="User to execute docker exec command as. Default: movai",
-        default="movai",
     )
     parser.add_argument(
         "--env",
         help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
         nargs="+",
-        default=[],
     )
 
     # executor arguments
