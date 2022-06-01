@@ -1,5 +1,6 @@
 "Recursively imports, exports, removes or re-installs all manifest.txt files found under the directory"
 import argparse
+import argcomplete
 import sys
 from movai_developer_tools.utils import logger
 from movai_developer_tools.movbkp.import_metadata.operation_executer import Importer
@@ -40,6 +41,8 @@ def handle():
         "--directory",
         help="Directory to search manifests, defaults to CWD",
     )
+    # Enable argcomplete
+    argcomplete.autocomplete(parser)
 
     # executor arguments
     for executer in executors.values():
