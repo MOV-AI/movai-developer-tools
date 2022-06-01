@@ -16,9 +16,9 @@ class ContainerTools:
         silent: Supports using methods without printing results to the terminal. Defaults to ``False``
 
     Attributes:
-        userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
-        container: The container object found using the regular expression.
-        silent: Supports using methods without printing results to the terminal. Defaults to ``False``
+        userspace_bind_dir (str): The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
+        container (Container): The container object found using the regular expression.
+        silent (bool): Supports using methods without printing results to the terminal. Defaults to ``False``
 
     """
 

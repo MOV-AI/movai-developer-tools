@@ -8,7 +8,7 @@ class RosMaster(ContainerTools):
     """Main class to get properties of the active ros-master container.
 
     Attributes:
-        regex_container_name (str): Regular expression for finding the spawner container by name.
+        regex_container_name (str): Regular expression for finding the ros-master container by name.
 
     """
 

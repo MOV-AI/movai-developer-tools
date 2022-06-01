@@ -1,4 +1,3 @@
-"""Module where all the behaviour of a command should be destributed."""
 from movai_developer_tools.utils import logger
 from movai_developer_tools.movcontainer.spawner.operation_executer import Spawner
 from movai_developer_tools.movcontainer.ros_master.operation_executer import RosMaster
@@ -7,18 +6,38 @@ import sys
 import tarfile
 from io import BytesIO
 import time
+from argparse import Namespace
 
 
 class ExposeNetwork:
-    """Main class to expose ros topics, services and parameters from docker to the host"""
+    """Main class to expose ros topics, services and parameters from docker to the host.
 
-    def __init__(self, args):
-        """If your executor requires some initialization, use the class constructor for it"""
+
+    Args:
+        args: A set of parsed args.
+
+    Attributes:
+        ros_install_dir (str): ROS installation directory.
+        supported_ros_distros (set): Supported ROS distors.
+        entrypoint_dir (str): Docker-entrypoint directory.
+        entrypoint_filename (str): Docker-entrypoint filename.
+        temp_ep_tar (str): Temporary place to store the docker-entrypoint tar file.
+        bashrc_dir (str): Bashrc directory.
+        bashrc_filename (str): Bashrc filename.
+        temp_bashrc_tar (str): Temporary place to store the bashrc tar file.
+        args (NameSpace): A set of parsed args.
+        spawner (Spawner): Spawner class instance.
+        ros_master (RosMaster): RosMaster class instance.
+        ros_distro (str): ROS distro that is installed in the host.
+
+    """
+
+    def __init__(self, args: Namespace) -> None:
         logger.debug("ExposeNetwork Init")
         # ROS instllation dir
         self.ros_install_dir = "/opt/ros"
         # Supported ROS distors
-        self.supported_ros_distros = ["noetic", "melodic"]
+        self.supported_ros_distros = {"noetic", "melodic"}
 
         # Docker-entrypoint dir
         self.entrypoint_dir = "/usr/local/bin"

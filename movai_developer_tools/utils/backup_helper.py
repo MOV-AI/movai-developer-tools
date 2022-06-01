@@ -16,14 +16,14 @@ class BackupHelper:
         dry_run: If True, the actions taken by the backup tool are not destructive.
 
     Attributes:
-        userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
-        metadata_install_dir: Metadata install location inside the spawner container.
-        manifest_regex: Manifest file name used for listing metadata type and name (Flow:my_flow).
-        regex_spawner_name: Regular expression for finding the spawner container.
-        spawner_cls: Container object of the spawner container.
-        userspace_dir: Userspace directory in the host which is mounted inside the spawner container.
-        valid_commands: A set of accepted commands by backup tool.
-        dry_run: If True, the actions taken by the backup tool are not destructive.
+        userspace_bind_dir (str): The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
+        metadata_install_dir (str): Metadata install location inside the spawner container.
+        manifest_regex (str): Manifest file name used for listing metadata type and name (Flow:my_flow).
+        regex_spawner_name (str): Regular expression for finding the spawner container.
+        spawner_cls (ContainerTools): Container object of the spawner container.
+        userspace_dir (str): Userspace directory in the host which is mounted inside the spawner container.
+        valid_commands (set): A set of accepted commands by backup tool.
+        dry_run (bool): If True, the actions taken by the backup tool are not destructive.
 
     """
 
