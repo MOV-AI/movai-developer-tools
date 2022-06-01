@@ -16,7 +16,7 @@ executors = {"spawner": Spawner, "ros-master": RosMaster}
 def handle():
     """Entrypoint method of the package. It handles commands to the executers"""
     parser = argparse.ArgumentParser(
-        description="This component containes miscellaneous tools used when developing with MOV.AI"
+        description="This component helps to retrieve docker container information developing with MOV.AI."
     )
     parser.add_argument(
         "command",
@@ -32,22 +32,6 @@ def handle():
         "sub_command",
         help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
     )
-    parser.add_argument(
-        "--cmd",
-        help="Command to be executed in the spawner",
-        default="echo 'Hi there, I am an echo being executed in the container you have chosen. Please use [--cmd=EXEC_COMMAND] to specify the command you want to run'",
-    )
-    parser.add_argument(
-        "--user",
-        help="User to execute docker exec command as. Default: movai",
-        default="movai",
-    )
-    parser.add_argument(
-        "--env",
-        help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
-        nargs="+",
-        default=[],
-    )
 
     # executor arguments
     for executer in executors.values():
@@ -56,7 +40,7 @@ def handle():
     args = parser.parse_args()
 
     try:
-        executor = executors[args.command](args)
+        executor = executors[args.command]()
     except KeyError:
         logger.error(
             "Invalid command: "
@@ -67,7 +51,7 @@ def handle():
         )
         sys.exit()
 
-    executor.execute()
+    executor.execute(args)
 
 
 if __name__ == "__main__":

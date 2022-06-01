@@ -28,19 +28,14 @@ def handle():
         help=f"Command to be executed. Options are ({', '.join(executors.keys())})",
     )
     parser.add_argument(
-        "-dry",
         "--dry",
-        "--dry-run",
         help=f"Dry run commands {', '.join(map(str, executors))} without modifiying any files",
         action="store_true",
     )
     parser.add_argument(
-        "-dir",
         "--dir",
-        "--directory",
         help="Directory to search manifests, defaults to CWD",
     )
-
     # executor arguments
     for executer in executors.values():
         executer.add_expected_arguments(parser)
@@ -48,7 +43,7 @@ def handle():
     args = parser.parse_args()
 
     try:
-        executor = executors[args.command](args)
+        executor = executors[args.command]()
     except KeyError:
         logger.error(
             "Invalid command: "
@@ -59,7 +54,7 @@ def handle():
         )
         sys.exit()
 
-    executor.execute()
+    executor.execute(args)
 
 
 if __name__ == "__main__":

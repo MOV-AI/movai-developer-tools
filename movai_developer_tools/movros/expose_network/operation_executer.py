@@ -1,7 +1,5 @@
-"""Module where all the behaviour of a command should be destributed."""
 from movai_developer_tools.utils import logger
-from movai_developer_tools.movcontainer.spawner.operation_executer import Spawner
-from movai_developer_tools.movcontainer.ros_master.operation_executer import RosMaster
+from movai_developer_tools.utils.container_tools import ContainerTools
 from pathlib import Path
 import sys
 import tarfile
@@ -10,15 +8,29 @@ import time
 
 
 class ExposeNetwork:
-    """Main class to expose ros topics, services and parameters from docker to the host"""
+    """Main class to expose ros topics, services and parameters from docker to the host.
 
-    def __init__(self, args):
-        """If your executor requires some initialization, use the class constructor for it"""
+    Attributes:
+        ros_install_dir (str): ROS installation directory.
+        supported_ros_distros (set): Supported ROS distors.
+        entrypoint_dir (str): Docker-entrypoint directory.
+        entrypoint_filename (str): Docker-entrypoint filename.
+        temp_ep_tar (str): Temporary place to store the docker-entrypoint tar file.
+        bashrc_dir (str): Bashrc directory.
+        bashrc_filename (str): Bashrc filename.
+        temp_bashrc_tar (str): Temporary place to store the bashrc tar file.
+        spawner (Spawner): Spawner class instance.
+        ros_master (RosMaster): RosMaster class instance.
+        ros_distro (str): ROS distro that is installed in the host.
+
+    """
+
+    def __init__(self) -> None:
         logger.debug("ExposeNetwork Init")
         # ROS instllation dir
         self.ros_install_dir = "/opt/ros"
         # Supported ROS distors
-        self.supported_ros_distros = ["noetic", "melodic"]
+        self.supported_ros_distros = {"noetic", "melodic"}
 
         # Docker-entrypoint dir
         self.entrypoint_dir = "/usr/local/bin"
@@ -34,18 +46,28 @@ class ExposeNetwork:
         # Temporary place to store the tar file
         self.temp_bashrc_tar = "/tmp/bashrc.tar"
 
-        # Pass self.args as instance variable
-        self.args = args
-        # Spawner class
-        self.spawner = Spawner(args)
-        # RosMaster class
-        self.ros_master = RosMaster(args)
+        # Instanciate spawner container class
+        # Reg expressions for finding the spawner container
+        regex_spawner_name = "^spawner-.*"
+        # Instanciate for silent operation if silent arg is True, else take default
+        self.spawner = ContainerTools(regex_spawner_name, silent=True)
+
+        # Instanciate ros-master container class
+        # Reg expressions for finding the ros-master container
+        regex_ros_master_name = "^ros-master-.*"
+        # Instanciate for silent operation if silent arg is True, else take default
+        self.ros_master = ContainerTools(regex_ros_master_name, silent=True)
 
         # ROS distro in host
         self.ros_distro = None
 
-    def validate_ros_installation(self):
-        """Validate supported ROS installation in the host"""
+    def validate_ros_installation(self) -> bool:
+        """Validate ROS LTS installation in the host.
+
+        Returns:
+            The return value. True if any ROS LTS version is installed, Exit otherwise.
+
+        """
         # Validate if ROS LTS is installed in the host
         ros_installed = False
         for ros_distro in self.supported_ros_distros:
@@ -61,9 +83,16 @@ class ExposeNetwork:
             )
             sys.exit(1)
 
-    def get_file_content(self, file) -> tuple:
-        """Returns a tuple (content, stats). Content is with binary string items of the given file in the spawner container.
+    def get_file_content(self, file: str) -> tuple:
+        """Get a file from given spawner and converts the data into a list of byetes.
         For more information on the stats, follow this link: https://docker-py.readthedocs.io/en/stable/containers.html#docker.models.containers.Container.get_archive
+
+        Args:
+            file: File to be fetched inside the container.
+
+        Returns:
+            A tuple with content (list(bytes)) and stats (dict)
+
         """
         bits, stats = self.spawner.get_archive(file)
         # Use bytesio file to generate a tarfile to read content
@@ -77,8 +106,17 @@ class ExposeNetwork:
                     content = file.readlines()
         return content, stats
 
-    def write_file_to_tar(self, tarname, tardata, tarinfo):
-        """Write a tar file given a binary string (tardata) and tarinfo"""
+    def write_file_to_tar(
+        self, tarname: str, tardata: bytes, tarinfo: tarfile.TarInfo
+    ) -> None:
+        """Write a tar file given a name, data and tarinfo.
+
+        Args:
+            tarname: Name of the tarfile.
+            tardata: Data to be written into tarfile.
+            tarinfo: Info file for tar objects.
+
+        """
         with BytesIO() as f_bytesio:
             # Make tarfile with modified info
             with tarfile.open(fileobj=f_bytesio, mode="w:tar") as tar:
@@ -88,8 +126,16 @@ class ExposeNetwork:
             with open(tarname, "wb") as out:
                 out.write(f_bytesio.read())
 
-    def yes_or_no(self, question) -> bool:
-        """Return bool based on user input"""
+    def yes_or_no(self, question: str) -> bool:
+        """Accepts Y/n input from user.
+
+        Args:
+            question: The question to be asked to the user.
+
+        Returns:
+            The return value. True is the user enter an empty value, or Y/y, False otherwise.
+
+        """
         reply = str(input(question + " (Y/n): ")).lower().strip()
         if reply == "" or reply[0] == "y":
             return True
@@ -98,32 +144,35 @@ class ExposeNetwork:
         else:
             return self.yes_or_no(question)
 
-    def generate_tarinfo(self, filename, data, mode):
-        """Generate tarinfo from args"""
+    def generate_tarinfo(
+        self, filename: str, data: bytes, mode: int
+    ) -> tarfile.TarInfo:
+        """Generate tarinfo from filename, data and mode.
+
+        Args:
+            filename: Name of the file inside the tarfile.
+            data: Data inside the tarfile.
+            mode: Permissions of the data inside the tarfile.
+
+        Returns:
+            A TarInfo file with pre-filled information.
+
+        """
         tar_info = tarfile.TarInfo(filename)
         tar_info.mtime = time.time()
         tar_info.mode = mode
         tar_info.size = len(data)
         return tar_info
 
-    def execute(self):
-        """Method where the main behaviour of the executer should be"""
-        logger.debug(f"Execute ExposeNetwork behaviour with self.args: {self.args}")
-
-        # Make args for calling other services
-        # Silence the log output from other services because the function is being used internally
-        # Only the return value is used and not the printed one
-        self.args.silent = True
+    def execute(self) -> None:
+        """Execute the expose-network behaviour."""
         # Get spawner name
-        self.args.sub_command = "name"
         spawner_name = self.spawner.get_name()
-        # Get ip of the spawner and ros-master container networks
-        self.args.sub_command = "ip"
-        spawner_ip = self.spawner.execute()
-        ros_master_ip = self.ros_master.execute()
+        # Get ip of the spawner and ros-master containers
+        spawner_ip = self.spawner.get_ip()
+        ros_master_ip = self.ros_master.get_ip()
         # Get gateway of the spawner container network
-        self.args.sub_command = "gateway"
-        spawner_gateway = self.spawner.execute()
+        spawner_gateway = self.spawner.get_gateway()
 
         # Validate ROS host installation
         self.validate_ros_installation()
@@ -235,7 +284,3 @@ class ExposeNetwork:
     @staticmethod
     def add_expected_arguments(parser):
         """Method exposed for the handle to append our executer arguments."""
-        # parser.add_argument(
-        #     "--executor_specific_arg",
-        #     help="specific argument needed for this executor",
-        # )
