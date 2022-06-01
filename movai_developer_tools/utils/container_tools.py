@@ -220,10 +220,13 @@ class ContainerTools:
 
 
 if __name__ == "__main__":
-    regex_spawner_name = "^spawner-.*"
-    container_tools = ContainerTools(regex_spawner_name)
-    print(f"Spawner ip: {container_tools.get_ip()}")
-    print(f"Spawner id:  {container_tools.get_id()}")
-    print(f"Spawner name: {container_tools.get_name()}")
-    print(f"Spawner gateway: {container_tools.get_gateway()}")
-    print(f"Spawner container obj: {container_tools.get_obj_by_name_regex()}")
+    # Regular expression against name to find the container
+    regex = "^spawner-.*"
+    logger.info(
+        "Executing get_ip, get_id, get_name and get_gateway methods of the ContainerTools with regex: {regex}"
+    )
+    container_tools = ContainerTools(regex)
+    container_tools.get_ip()
+    container_tools.get_id()
+    container_tools.get_name()
+    container_tools.get_gateway()
