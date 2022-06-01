@@ -16,7 +16,7 @@ executors = {"spawner": Spawner, "ros-master": RosMaster}
 def handle():
     """Entrypoint method of the package. It handles commands to the executers"""
     parser = argparse.ArgumentParser(
-        description="This component containes miscellaneous tools used when developing with MOV.AI"
+        description="This component helps to retrieve docker container information developing with MOV.AI."
     )
     parser.add_argument(
         "command",
