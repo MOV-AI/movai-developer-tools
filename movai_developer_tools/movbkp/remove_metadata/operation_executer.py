@@ -10,7 +10,7 @@ class Remover(BackupHelper):
         logger.debug("Remover Init")
 
     def execute(self, args):
-        """Method where the main behaviour of the executer should be"""
+        """Execute the remove behaviour."""
         # Call superclass init
         super().__init__(dry_run=args.dry)
         # Execute

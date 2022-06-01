@@ -3,14 +3,13 @@ from movai_developer_tools.utils.backup_helper import BackupHelper
 
 
 class Importer(BackupHelper):
-    """Main class to import metadata using the backup tool in the spawner container"""
+    """Main class to import metadata using the backup tool in the spawner container."""
 
     def __init__(self):
-        """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("Importer Init")
 
     def execute(self, args):
-        """Method where the main behaviour of the executer should be"""
+        """Execute the import behaviour."""
         # Call superclass init
         super().__init__(dry_run=args.dry)
         # Execute
