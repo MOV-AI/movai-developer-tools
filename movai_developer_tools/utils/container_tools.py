@@ -12,11 +12,13 @@ class ContainerTools:
 
     Args:
         regex: The regular expression used to find the docker container object by name.
+        userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
         silent: Supports using methods without printing results to the terminal. Defaults to ``False``
 
     Attributes:
         userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
         container: The container object found using the regular expression.
+        silent: Supports using methods without printing results to the terminal. Defaults to ``False``
 
     """
 

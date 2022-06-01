@@ -5,19 +5,16 @@ from movai_developer_tools.utils.backup_helper import BackupHelper
 class Remover(BackupHelper):
     """Main class to delete metadata using the backup tool in the spawner container"""
 
-    def __init__(self, args):
+    def __init__(self):
         """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("Remover Init")
-        # Call superclass init
-        super().__init__(args)
-        # Pass args as instance variable
-        self.args = args
 
-    def execute(self):
+    def execute(self, args):
         """Method where the main behaviour of the executer should be"""
-        logger.debug(f"Execute remover behaviour with self.args: {self.args}")
+        # Call superclass init
+        super().__init__(dry_run=args.dry)
         # Execute
-        self.iterative_backup_action()
+        self.iterative_backup_action(command=args.command, work_dir=args.dir)
 
     @staticmethod
     def add_expected_arguments(parser):
