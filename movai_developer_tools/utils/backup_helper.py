@@ -30,7 +30,7 @@ class BackupHelper:
         self.args.cmd = f"find {self.metadata_install_dir} -name {self.manifest_regex}"
         # User docker exec
         # TODO: Alternative for docker exec
-        manifest_files_in_spawner = self.spawner_cls.exec().decode().split()
+        _, manifest_files_in_spawner = self.spawner_cls.exec_run().decode().split()
         # Add fix for: !---Thenameofthepackage.--: No such file or directory error
         # Quote every manifest paths
         manifest_files_in_spawner = list(
@@ -121,7 +121,7 @@ class BackupHelper:
 
             # Execute if not dry run
             if not self.args.dry:
-                self.spawner_cls.exec()
+                self.spawner_cls.exec_run()
             else:
                 logger.info("Dry run mode, please remove the dry run arg to execute")
 

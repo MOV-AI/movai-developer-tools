@@ -11,8 +11,8 @@ class RosMaster(ContainerTools):
         """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("RosMaster Init")
         # Reg expressions for finding the ros-master container
-        self.regex_ros_master_name = "^ros-master-*"
-        super().__init__(self.regex_ros_master_name)
+        regex_ros_master_name = "^ros-master-*"
+        super().__init__(regex_ros_master_name)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,
@@ -21,7 +21,7 @@ class RosMaster(ContainerTools):
             "gateway": self.get_gateway,
             "restart": self.restart,
             "userspace-dir": self.get_userspace_dir,
-            "exec": self.exec,
+            "exec": self.exec_run,
             "logs": self.logs,
         }
         # Pass args as instance variable

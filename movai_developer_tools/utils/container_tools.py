@@ -1,35 +1,49 @@
-"""Module that contains a wrapper container_tools to ease interacting with the python docker module"""
+"""Module that contains methods to ease interacting with the python docker module in the context of docker containers from MOV.AI"""
 from movai_developer_tools.utils import logger
 import docker
 import sys
 import time
+import typing
+from docker.models.containers import ExecResult
 
 
 class ContainerTools:
-    """Set of methods to help access docker functions using the API"""
+    """Wrapper over docker API functions that are useful when developing with MOV.AI platform.
 
-    def __init__(self, regex) -> None:
-        """Constructor for container tools class"""
-        self.regex = regex
+    Args:
+        regex: The regular expression used to find the docker container object by name.
+
+    Attributes:
+        userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
+        container: The container object found using the regular expression.
+
+    """
+
+    def __init__(
+        self, regex: str, userspace_bind_dir: str = "/opt/mov.ai/user"
+    ) -> None:
         # Container userspace bind location
-        self.userspace_bind_dir = "/opt/mov.ai/user"
+        self.userspace_bind_dir = userspace_bind_dir
 
-    def get_obj_by_name_regex(self):
-        """Return a container object with matching regex name search, if not found exit"""
+        # Get container object with regex search over name, exit if not found
         client = docker.from_env()
-        containers = client.containers.list(filters={"name": self.regex})
+        containers = client.containers.list(filters={"name": regex})
         if containers:
-            return containers[0]
+            self.container = containers[0]
         else:
             logger.error(
-                f"Did not find a runnning container with name search: Regex used {self.regex}"
+                f"Did not find a runnning container with name search: Regex used {regex}"
             )
             sys.exit(1)
 
-    def get_ip(self):
-        """Return a container ip given a regex string to compare against the name."""
-        container = self.get_obj_by_name_regex()
-        networks = container.attrs["NetworkSettings"]["Networks"]
+    def get_ip(self) -> str:
+        """Return a container ip given a regex string to compare against the name.
+
+        Returns:
+            The IP of the container.
+
+        """
+        networks = self.container.attrs["NetworkSettings"]["Networks"]
         network = next(iter(networks))
         ip = networks[network]["IPAddress"]
         # Log if not silent
@@ -37,28 +51,40 @@ class ContainerTools:
             logger.info(f"IPAddress: {ip}")
         return ip
 
-    def get_id(self):
-        """Get short id of a container found using regex of the name"""
-        container = self.get_obj_by_name_regex()
-        short_id = container.short_id
+    def get_id(self) -> str:
+        """Get short id of a container found using regex of the name.
+
+        Returns:
+            Short ID of the container.
+
+        """
+        short_id = self.container.short_id
         # Log if not silent
         if not self.args.silent:
             logger.info(f"Short ID: {short_id}")
         return short_id
 
-    def get_name(self):
-        """Get the name of a container found using regex"""
-        container = self.get_obj_by_name_regex()
-        name = container.name
+    def get_name(self) -> str:
+        """Get the name of a container found using regex.
+
+        Returns:
+            The name of the container.
+
+        """
+        name = self.container.name
         # Log if not silent
         if not self.args.silent:
             logger.info(f"Name: {name}")
         return name
 
-    def get_gateway(self):
-        """Get gateway of the first network of a container found using regex of the name"""
-        container = self.get_obj_by_name_regex()
-        networks = container.attrs["NetworkSettings"]["Networks"]
+    def get_gateway(self) -> str:
+        """Get gateway of the first network of a container found using regex of the name.
+
+        Returns:
+            The gateway of the container.
+
+        """
+        networks = self.container.attrs["NetworkSettings"]["Networks"]
         network = next(iter(networks))
         gateway = networks[network]["Gateway"]
         # Log if not silent
@@ -66,26 +92,46 @@ class ContainerTools:
             logger.info(f"Gateway: {gateway}")
         return gateway
 
-    def get_archive(self, path):
-        """Wrapper over get_archive api in the container found using regex of the name"""
-        container = self.get_obj_by_name_regex()
-        return container.get_archive(path)
+    def get_archive(self, path: str) -> tuple:
+        """Wrapper over get_archive API.
 
-    def put_archive(self, path, data):
-        """Wrapper over put_archive api in the container found using regex of the name"""
-        container = self.get_obj_by_name_regex()
-        return container.put_archive(path, data)
+        Args:
+            path: Path to the file or folder to retrieve.
 
-    def restart(self):
-        """Wrapper over restart api in the container found using regex of the name"""
-        container = self.get_obj_by_name_regex()
-        return container.restart()
+        Returns:
+            First element is a raw tar data stream. Second element is
+            a dict containing ``stat`` information on the specified ``path``.
 
-    def get_userspace_dir(self):
-        """Return userspace that is mounted in the container"""
-        container = self.get_obj_by_name_regex()
-        binds = container.attrs["HostConfig"]["Binds"]
-        # Check the bind at "/opt/mov.ai/user", which is where the userspace is mounted
+        """
+        return self.container.get_archive(path)
+
+    def put_archive(self, path: str, data: bytes) -> bool:
+        """Wrapper over put_archive API.
+
+        Args:
+            path: Path inside the container where the file(s) will be
+                extracted. Must exist.
+            data: tar data to be extracted
+
+        Returns:
+            The return value. True for success, False otherwise.
+
+        """
+        return self.container.put_archive(path, data)
+
+    def restart(self) -> None:
+        """Wrapper over restart API."""
+        self.container.restart()
+
+    def get_userspace_dir(self) -> str:
+        """Return userspace that is mounted in the container.
+
+        Returns:
+            The userspace directory path in the host.
+
+        """
+        binds = self.container.attrs["HostConfig"]["Binds"]
+        # Check the bind at self.userspace_bind_dir, which is where the userspace is mounted
         userspace_dir = None
         for bind in binds:
             _split = bind.split(":")
@@ -100,11 +146,27 @@ class ContainerTools:
         logger.info("Userspace not mounted.")
         sys.exit(1)
 
-    def logs(self):
-        """Get logs of the container"""
-        container = self.get_obj_by_name_regex()
+    def logs(
+        self,
+        tail: typing.Union[int, str] = 100,
+        follow: bool = True,
+        stream: bool = True,
+    ) -> None:
+        """Wrapper over logs API.
+
+        Args:
+            tail: Output specified number of lines at the end of logs.
+                Either an integer of number of lines or the string ``all``.
+                Defaults to``100``.
+            follow: Follow log output. Default ``True``
+            stream: Stream the response. Defaults to ``True``.
+
+        Todo:
+            * Find better alternatice for while loop to print logs.
+
+        """
         # Get logs stream
-        logs_stream = container.logs(tail=100, follow=True, stream=True)
+        logs_stream = self.container.logs(tail=tail, follow=follow, stream=stream)
         # Print stream, exit on keyboard interrupt
         try:
             while True:
@@ -118,10 +180,22 @@ class ContainerTools:
             logger.info("Recieved keyboard interrupt, exiting.")
             sys.exit()
 
-    def exec(self):
-        """Execute given command inside the container, user:movai"""
-        container = self.get_obj_by_name_regex()
-        exit_code, output = container.exec_run(
+    def exec_run(self) -> ExecResult:
+        """Wrapper over exec_run API.
+
+        Returns:
+            A tuple of (exit_code, output)
+                exit_code: (int):
+                    Exit code for the executed command or ``None`` if
+                    either ``stream`` or ``socket`` is ``True``.
+                output: (generator, bytes, or tuple):
+                    If ``stream=True``, a generator yielding response chunks.
+                    If ``socket=True``, a socket object for the connection.
+                    If ``demux=True``, a tuple of two bytes: stdout and stderr.
+                    A bytestring containing response data otherwise.
+
+        """
+        exec_result = self.container.exec_run(
             cmd=["bash", "-c", self.args.cmd],
             user=self.args.user,
             environment=self.args.env,
@@ -129,8 +203,8 @@ class ContainerTools:
         # Log if not silent
         if not self.args.silent:
             # Log output. Decode for pretty print
-            print(f"{output.decode()}")
-        return output
+            print(f"{exec_result.output.decode()}")
+        return exec_result
 
 
 if __name__ == "__main__":

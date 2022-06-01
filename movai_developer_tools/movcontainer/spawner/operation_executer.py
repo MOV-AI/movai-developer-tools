@@ -11,8 +11,8 @@ class Spawner(ContainerTools):
         """If your executor requires some initialization, use the class constructor for it"""
         logger.debug("Spawner Init")
         # Reg expressions for finding the spawner container
-        self.regex_spawner_name = "^spawner-.*"
-        super().__init__(self.regex_spawner_name)
+        regex_spawner_name = "^spawner-.*"
+        super().__init__(regex_spawner_name)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,
@@ -21,7 +21,7 @@ class Spawner(ContainerTools):
             "gateway": self.get_gateway,
             "restart": self.restart,
             "userspace-dir": self.get_userspace_dir,
-            "exec": self.exec,
+            "exec": self.exec_run,
             "logs": self.logs,
         }
         # Pass args as instance variable
