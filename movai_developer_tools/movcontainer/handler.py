@@ -32,19 +32,6 @@ def handle():
         "sub_command",
         help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
     )
-    parser.add_argument(
-        "--cmd",
-        help="Command to be executed in the spawner",
-    )
-    parser.add_argument(
-        "--user",
-        help="User to execute docker exec command as. Default: movai",
-    )
-    parser.add_argument(
-        "--env",
-        help="A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'",
-        nargs="+",
-    )
 
     # executor arguments
     for executer in executors.values():
@@ -53,7 +40,7 @@ def handle():
     args = parser.parse_args()
 
     try:
-        executor = executors[args.command](args)
+        executor = executors[args.command]()
     except KeyError:
         logger.error(
             "Invalid command: "
@@ -64,7 +51,7 @@ def handle():
         )
         sys.exit()
 
-    executor.execute()
+    executor.execute(args)
 
 
 if __name__ == "__main__":

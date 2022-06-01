@@ -197,6 +197,12 @@ class ContainerTools:
     ) -> ExecResult:
         """Wrapper over exec_run API.
 
+        Args:
+            cmd: Command to be executed.
+            user: User to execute command as. Default: movai
+            environment: A dictionary or a list of strings in the following format
+                        ``["PASSWORD=xxx"]`` or ``{"PASSWORD": "xxx"}``.
+
         Returns:
             A tuple of (exit_code, output)
                 exit_code: (int):
