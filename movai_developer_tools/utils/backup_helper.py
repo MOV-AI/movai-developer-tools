@@ -15,11 +15,11 @@ class BackupHelper:
         # Manifest regex
         self.manifest_regex = "manifest.txt"
         # Instanciate spawner class
+        # Run spawner container command with args
+        self.args = args
+        self.args.silent = True
         self.spawner_cls = Spawner(args)
         # Pass args as instance variable
-        self.args = args
-        # Run spawner container command with args
-        self.args.silent = True
         self.args.user = "movai"
         self.args.env = []
         self.host_userspace = self.spawner_cls.get_userspace_dir()
@@ -30,19 +30,19 @@ class BackupHelper:
         self.args.cmd = f"find {self.metadata_install_dir} -name {self.manifest_regex}"
         # User docker exec
         # TODO: Alternative for docker exec
-        _, manifest_files_in_spawner = self.spawner_cls.exec_run().decode().split()
+        _, manifest_files_in_spawner = self.spawner_cls.exec_run(cmd=self.args.cmd)
         # Add fix for: !---Thenameofthepackage.--: No such file or directory error
         # Quote every manifest paths
         manifest_files_in_spawner = list(
-            map(lambda x: "'" + x + "'", manifest_files_in_spawner)
+            map(lambda x: "'" + x + "'", manifest_files_in_spawner.decode().split())
         )
         return manifest_files_in_spawner
 
     def get_valid_directory(self):
-        """Validate if the current working directory (or given directory, args.directory) is in the host userspace. Return directory Path if good."""
+        """Validate if the current working directory (or given directory, args.dir) is in the host userspace. Return directory Path if good."""
         # If user provides directory argument use that as root dir, else use CWD
-        if self.args.directory:
-            working_directory = pathlib.Path(self.args.directory).resolve()
+        if self.args.dir:
+            working_directory = pathlib.Path(self.args.dir).resolve()
         else:
             working_directory = pathlib.Path.cwd().resolve()
 
@@ -121,7 +121,7 @@ class BackupHelper:
 
             # Execute if not dry run
             if not self.args.dry:
-                self.spawner_cls.exec_run()
+                self.spawner_cls.exec_run(cmd=self.args.cmd)
             else:
                 logger.info("Dry run mode, please remove the dry run arg to execute")
 

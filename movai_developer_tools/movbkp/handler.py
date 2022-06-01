@@ -29,18 +29,13 @@ def handle():
     )
     parser.add_argument(
         "-dry",
-        "--dry",
-        "--dry-run",
         help=f"Dry run commands {', '.join(map(str, executors))} without modifiying any files",
         action="store_true",
     )
     parser.add_argument(
         "-dir",
-        "--dir",
-        "--directory",
         help="Directory to search manifests, defaults to CWD",
     )
-
     # executor arguments
     for executer in executors.values():
         executer.add_expected_arguments(parser)
