@@ -1,5 +1,6 @@
 from movai_developer_tools.utils import logger
 from movai_developer_tools.utils.backup_helper import BackupHelper
+from argparse import Namespace
 
 
 class Exporter(BackupHelper):
@@ -8,8 +9,13 @@ class Exporter(BackupHelper):
     def __init__(self):
         logger.debug("Exporter Init")
 
-    def execute(self, args):
-        """Execute the export behaviour."""
+    def execute(self, args: Namespace):
+        """Execute the export behaviour.
+
+        Args:
+            args: A set of parsed args.
+
+        """
         # Call superclass init
         super().__init__(dry_run=args.dry)
         # Execute

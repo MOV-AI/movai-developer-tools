@@ -1,20 +1,29 @@
-"""Module where all the behaviour of a command should be destributed."""
 import sys
+from argparse import Namespace
 from movai_developer_tools.utils import logger
 from movai_developer_tools.utils.container_tools import ContainerTools
 
 
 class Spawner(ContainerTools):
-    """Main class to get properties of the active spawner container"""
+    """Main class to fetch properties of the active spawner container.
 
-    def __init__(self):
-        """If your executor requires some initialization, use the class constructor for it"""
+    Attributes:
+        regex_container_name (str): Regular expression for finding the spawner container by name.
+
+    """
+
+    def __init__(self) -> None:
         logger.debug("Spawner Init")
-        # Reg expressions for finding the spawner container
+        # Reg expression for finding the spawner container
         self.regex_container_name = "^spawner-.*"
 
-    def execute(self, args):
-        """Method where the main behaviour of the executer should be"""
+    def execute(self, args: Namespace) -> None:
+        """Execute the spawner behaviour. The sub_commad argument is used to execute respective method.
+
+        Args:
+            args: A set of parsed args.
+
+        """
         # Instanciate for silent operation if silent arg is True
         super().__init__(self.regex_container_name, silent=args.silent)
 
@@ -51,7 +60,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="This component containes miscellaneous tools used when developing with MOV.AI"
+        description="Main class to fetch properties of the active spawner container"
     )
     parser.add_argument(
         "--silent",

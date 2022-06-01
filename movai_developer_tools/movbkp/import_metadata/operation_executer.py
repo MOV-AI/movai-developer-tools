@@ -1,15 +1,21 @@
 from movai_developer_tools.utils import logger
 from movai_developer_tools.utils.backup_helper import BackupHelper
+from argparse import Namespace
 
 
 class Importer(BackupHelper):
     """Main class to import metadata using the backup tool in the spawner container."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         logger.debug("Importer Init")
 
-    def execute(self, args):
-        """Execute the import behaviour."""
+    def execute(self, args: Namespace) -> None:
+        """Execute the import behaviour.
+
+        Args:
+            args: A set of parsed args.
+
+        """
         # Call superclass init
         super().__init__(dry_run=args.dry)
         # Execute
