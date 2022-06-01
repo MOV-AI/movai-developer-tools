@@ -36,6 +36,8 @@ class ExposeNetwork:
 
         # Pass self.args as instance variable
         self.args = args
+        # Silent operation
+        self.args.silent = True
         # Spawner class
         self.spawner = Spawner(args)
         # RosMaster class

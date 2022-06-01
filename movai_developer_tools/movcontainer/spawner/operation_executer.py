@@ -12,7 +12,8 @@ class Spawner(ContainerTools):
         logger.debug("Spawner Init")
         # Reg expressions for finding the spawner container
         regex_spawner_name = "^spawner-.*"
-        super().__init__(regex_spawner_name)
+        # Instanciate for silent operation if silent arg is True, else take default
+        super().__init__(regex_spawner_name, silent=args.silent)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,

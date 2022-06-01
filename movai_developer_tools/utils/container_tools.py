@@ -12,6 +12,7 @@ class ContainerTools:
 
     Args:
         regex: The regular expression used to find the docker container object by name.
+        silent: Supports using methods without printing results to the terminal. Defaults to ``False``
 
     Attributes:
         userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
@@ -20,7 +21,10 @@ class ContainerTools:
     """
 
     def __init__(
-        self, regex: str, userspace_bind_dir: str = "/opt/mov.ai/user"
+        self,
+        regex: str,
+        userspace_bind_dir: str = "/opt/mov.ai/user",
+        silent: bool = False,
     ) -> None:
         # Container userspace bind location
         self.userspace_bind_dir = userspace_bind_dir
@@ -36,6 +40,9 @@ class ContainerTools:
             )
             sys.exit(1)
 
+        # Make silent attribute
+        self.silent = silent
+
     def get_ip(self) -> str:
         """Return a container ip given a regex string to compare against the name.
 
@@ -47,7 +54,7 @@ class ContainerTools:
         network = next(iter(networks))
         ip = networks[network]["IPAddress"]
         # Log if not silent
-        if not self.args.silent:
+        if not self.silent:
             logger.info(f"IPAddress: {ip}")
         return ip
 
@@ -60,7 +67,7 @@ class ContainerTools:
         """
         short_id = self.container.short_id
         # Log if not silent
-        if not self.args.silent:
+        if not self.silent:
             logger.info(f"Short ID: {short_id}")
         return short_id
 
@@ -73,7 +80,7 @@ class ContainerTools:
         """
         name = self.container.name
         # Log if not silent
-        if not self.args.silent:
+        if not self.silent:
             logger.info(f"Name: {name}")
         return name
 
@@ -88,7 +95,7 @@ class ContainerTools:
         network = next(iter(networks))
         gateway = networks[network]["Gateway"]
         # Log if not silent
-        if not self.args.silent:
+        if not self.silent:
             logger.info(f"Gateway: {gateway}")
         return gateway
 
@@ -138,7 +145,7 @@ class ContainerTools:
             if _split[1] == self.userspace_bind_dir:
                 userspace_dir = _split[0]
                 # Log if not silent
-                if not self.args.silent:
+                if not self.silent:
                     logger.info(f"Userspace directory: {userspace_dir}")
                 return userspace_dir
 
@@ -201,7 +208,7 @@ class ContainerTools:
             environment=self.args.env,
         )
         # Log if not silent
-        if not self.args.silent:
+        if not self.silent:
             # Log output. Decode for pretty print
             print(f"{exec_result.output.decode()}")
         return exec_result

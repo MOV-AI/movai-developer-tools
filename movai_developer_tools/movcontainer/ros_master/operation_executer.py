@@ -12,7 +12,8 @@ class RosMaster(ContainerTools):
         logger.debug("RosMaster Init")
         # Reg expressions for finding the ros-master container
         regex_ros_master_name = "^ros-master-*"
-        super().__init__(regex_ros_master_name)
+        # Instanciate for silent operation if silent arg is True, else take default
+        super().__init__(regex_ros_master_name, silent=args.silent)
         # Property to method map
         self.prop_to_method = {
             "ip": self.get_ip,
