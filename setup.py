@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="movai-developer-tools",
-    version="0.0.1-1",
+    version="0.0.1-3",
     author="Mithun Kinarullathil",
     author_email="mithun@mov.ai",
     description="Scripts to improve development process when using MOV.AI",
@@ -19,7 +19,7 @@ setuptools.setup(
     entry_points={
         "console_scripts": [
             "movros = movai_developer_tools.movros.handler:handle",
-            "movmisc = movai_developer_tools.movmisc.handler:handle",
+            "movcontainer = movai_developer_tools.movcontainer.handler:handle",
             "movbkp = movai_developer_tools.movbkp.handler:handle",
         ]
     },
