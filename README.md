@@ -45,3 +45,15 @@ Simply execute the following:
       * `--cmd` - Command that is going to be executed
       * `--user` - User to execute docker exec command as. (Default: movai)
       * `--env` - A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'
+
+## Sphinx Documentation
+### Auto generate API documentation
+*All commands are based on the root of the repository*
+* Install docs/requirements.txt
+`pip3 install -r docs/requirements.txt`
+* Auto-generate the rst Files
+`sphinx-apidoc -f -o docs/source movai_developer_tools`
+* Build the HTML
+`make -C docs html`
+* Open the *index.html*
+`xdg-open docs/build/html/index.html`
