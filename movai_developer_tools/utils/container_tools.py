@@ -1,4 +1,4 @@
-"""Module that contains methods to ease interacting with the python docker module in the context of docker containers from MOV.AI"""
+"""Module that contains methods to ease interacting with the python docker module in the context of docker containers from MOV.AI."""
 from movai_developer_tools.utils import logger
 import docker
 import sys
@@ -171,7 +171,7 @@ class ContainerTools:
             stream: Stream the response. Defaults to ``True``.
 
         Todo:
-            * Find better alternatice for while loop to print logs.
+            Find better alternatice for while loop to print logs.
 
         """
         # Get logs stream
@@ -183,7 +183,6 @@ class ContainerTools:
                 # Using print to keep the same color and structure of docker logs
                 print(logs_stream.next().decode().strip("\n"))
                 # Sleep 0.1ms, keep printing logs very fast.
-                # TODO: Better method that while loop?.
                 time.sleep(0.0001)
         except KeyboardInterrupt:
             logger.info("Recieved keyboard interrupt, exiting.")
