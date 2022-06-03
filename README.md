@@ -23,7 +23,7 @@ Simply execute the following:
   * `import` - Imports the metadata specified in the found manifest.txt
   * `export` - Exports the metadata specified in the found manifest.txt
   * `remove` - Removes the metadata specified in the found manifest.txt
-  * `export` - Imports all the metadata from installed packages in the spawner container
+  * `re-install` - Imports all the metadata from installed packages in the spawner container
   * `--directory` - Directory to search manifests, defaults to CWD
   * `--dry-run` - Dry run any command without modifiying any files
 
