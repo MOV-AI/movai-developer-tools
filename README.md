@@ -41,7 +41,3 @@ Simply execute the following:
     * `gateway` - Prints Host virtual IP in the docker network
     * `userspace-dir` - Prints running spawner host userspace directory
     * `logs` - Shows the running spawner logs
-    * `exec` - Executes a bash command inside the running spawner container
-      * `--cmd` - Command that is going to be executed
-      * `--user` - User to execute docker exec command as. (Default: movai)
-      * `--env` - A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'
