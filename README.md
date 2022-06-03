@@ -49,8 +49,8 @@ Simply execute the following:
 ## Sphinx Documentation
 ### Auto generate API documentation
 *All commands are based on the root of the repository*
-* Install docs/requirements.txt
-`pip3 install -r docs/requirements.txt`
+* Install docs/build-requirements.txt
+`pip3 install -r docs/build-requirements.txt`
 * Auto-generate the rst Files
 `sphinx-apidoc -f -o docs/source movai_developer_tools`
 * Build the HTML
