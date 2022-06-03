@@ -48,12 +48,10 @@ Simply execute the following:
 
 ## Sphinx Documentation
 ### Auto generate API documentation
-*All commands are based on the root of the repository*
-* Install docs/build-requirements.txt
-`pip3 install -r docs/build-requirements.txt`
-* Auto-generate the rst Files
-`sphinx-apidoc -f -o docs/source movai_developer_tools`
-* Build the HTML
-`make -C docs html`
-* Open the *index.html*
-`xdg-open docs/build/html/index.html`
+
+* Change directory to the docs folder
+`cd docs/`
+* Run the build script
+`./build.sh`
+* Open the index.html file
+`xdg-open build/html/index.html`
