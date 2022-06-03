@@ -1,5 +1,7 @@
+argparse
 black
 bump2version
+docker
 flake8
 mock
 pylint
