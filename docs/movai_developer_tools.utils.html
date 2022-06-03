@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>movai_developer_tools.utils package &mdash; MOV-AI Developer Tools 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="movai_developer_tools.movros.expose_network package" href="movai_developer_tools.movros.expose_network.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> MOV-AI Developer Tools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">movai_developer_tools</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="movai_developer_tools.html">movai_developer_tools package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="movai_developer_tools.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="movai_developer_tools.movbkp.html">movai_developer_tools.movbkp package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="movai_developer_tools.movcontainer.html">movai_developer_tools.movcontainer package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="movai_developer_tools.movros.html">movai_developer_tools.movros package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">movai_developer_tools.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="movai_developer_tools.html#module-movai_developer_tools">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MOV-AI Developer Tools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">movai_developer_tools</a> &raquo;</li>
+          <li><a href="movai_developer_tools.html">movai_developer_tools package</a> &raquo;</li>
+      <li>movai_developer_tools.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/movai_developer_tools.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <section id="movai-developer-tools-utils-package">
+<h1>movai_developer_tools.utils package<a class="headerlink" href="#movai-developer-tools-utils-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-movai_developer_tools.utils.backup_helper">
+<span id="movai-developer-tools-utils-backup-helper-module"></span><h2>movai_developer_tools.utils.backup_helper module<a class="headerlink" href="#module-movai_developer_tools.utils.backup_helper" title="Permalink to this heading"></a></h2>
+<p>Module that contains a set of functions to ease interacting with the MOV.AI backup tool</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.backup_helper.</span></span><span class="sig-name descname"><span class="pre">BackupHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userspace_bind_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/opt/mov.ai/user'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_install_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/opt/ros/${ROS_DISTRO}/share'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'manifest.txt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Set of functions to help export/import of metadata objects when developing with MOV.AI platform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>userspace_bind_dir</strong> – The directory where the userspace is mounted. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/opt/mov.ai/user&quot;</span></code>.</p></li>
+<li><p><strong>metadata_install_dir</strong> – Metadata install location inside the spawner container.</p></li>
+<li><p><strong>manifest_regex</strong> – Manifest file name used for listing metadata type and name (Flow:my_flow).</p></li>
+<li><p><strong>dry_run</strong> – If True, the actions taken by the backup tool are not destructive.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.userspace_bind_dir">
+<span class="sig-name descname"><span class="pre">userspace_bind_dir</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.userspace_bind_dir" title="Permalink to this definition"></a></dt>
+<dd><p>The directory where the userspace is mounted. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/opt/mov.ai/user&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.metadata_install_dir">
+<span class="sig-name descname"><span class="pre">metadata_install_dir</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.metadata_install_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Metadata install location inside the spawner container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.manifest_regex">
+<span class="sig-name descname"><span class="pre">manifest_regex</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.manifest_regex" title="Permalink to this definition"></a></dt>
+<dd><p>Manifest file name used for listing metadata type and name (Flow:my_flow).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.regex_spawner_name">
+<span class="sig-name descname"><span class="pre">regex_spawner_name</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.regex_spawner_name" title="Permalink to this definition"></a></dt>
+<dd><p>Regular expression for finding the spawner container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.spawner_cls">
+<span class="sig-name descname"><span class="pre">spawner_cls</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.spawner_cls" title="Permalink to this definition"></a></dt>
+<dd><p>Container object of the spawner container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#movai_developer_tools.utils.container_tools.ContainerTools" title="movai_developer_tools.utils.container_tools.ContainerTools">ContainerTools</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.userspace_dir">
+<span class="sig-name descname"><span class="pre">userspace_dir</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.userspace_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Userspace directory in the host which is mounted inside the spawner container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.valid_commands">
+<span class="sig-name descname"><span class="pre">valid_commands</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.valid_commands" title="Permalink to this definition"></a></dt>
+<dd><p>A set of accepted commands by backup tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.dry_run">
+<span class="sig-name descname"><span class="pre">dry_run</span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.dry_run" title="Permalink to this definition"></a></dt>
+<dd><p>If True, the actions taken by the backup tool are not destructive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.get_installed_manifest_files">
+<span class="sig-name descname"><span class="pre">get_installed_manifest_files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">map</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.get_installed_manifest_files" title="Permalink to this definition"></a></dt>
+<dd><p>Return a map object of paths of manifest files that are already installed by packages in the container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A map of paths inside the spawner container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.get_manifest_files_in_host">
+<span class="sig-name descname"><span class="pre">get_manifest_files_in_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">map</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.get_manifest_files_in_host" title="Permalink to this definition"></a></dt>
+<dd><p>Return a map object of manifest files found in the host.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dir</strong> – Directory path to search for manifest files.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A map object of manifest file paths found in recursive search from dir.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.get_manifest_files_in_spawner">
+<span class="sig-name descname"><span class="pre">get_manifest_files_in_spawner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">work_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PosixPath</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">map</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.get_manifest_files_in_spawner" title="Permalink to this definition"></a></dt>
+<dd><p>Get a list of manifest file locations inside the spawner container given working directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>work_dir</strong> – A PosixPath object of the working directory in the host.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A map of paths of manifest files inside the spawner container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.backup_helper.BackupHelper.iterative_backup_action">
+<span class="sig-name descname"><span class="pre">iterative_backup_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">work_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.backup_helper.BackupHelper.iterative_backup_action" title="Permalink to this definition"></a></dt>
+<dd><p>Iteratively import/export/remove/re-install mov.ai metadata mentioned in manifest.txt files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> – Action to be taken. Options are in self.valid_commands.</p></li>
+<li><p><strong>work_dir</strong> – Working directory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-movai_developer_tools.utils.container_tools">
+<span id="movai-developer-tools-utils-container-tools-module"></span><h2>movai_developer_tools.utils.container_tools module<a class="headerlink" href="#module-movai_developer_tools.utils.container_tools" title="Permalink to this heading"></a></h2>
+<p>Module that contains methods to ease interacting with the python docker module in the context of docker containers from MOV.AI.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.container_tools.</span></span><span class="sig-name descname"><span class="pre">ContainerTools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userspace_bind_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/opt/mov.ai/user'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper over docker API functions that are useful when developing with MOV.AI platform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regex</strong> – The regular expression used to find the docker container object by name.</p></li>
+<li><p><strong>userspace_bind_dir</strong> – The directory where the userspace is mounted. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/opt/mov.ai/user&quot;</span></code>.</p></li>
+<li><p><strong>silent</strong> – Supports using methods without printing results to the terminal. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.userspace_bind_dir">
+<span class="sig-name descname"><span class="pre">userspace_bind_dir</span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.userspace_bind_dir" title="Permalink to this definition"></a></dt>
+<dd><p>The directory where the userspace is mounted. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;/opt/mov.ai/user&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.container">
+<span class="sig-name descname"><span class="pre">container</span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.container" title="Permalink to this definition"></a></dt>
+<dd><p>The container object found using the regular expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Container</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.silent">
+<span class="sig-name descname"><span class="pre">silent</span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.silent" title="Permalink to this definition"></a></dt>
+<dd><p>Supports using methods without printing results to the terminal. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.exec_run">
+<span class="sig-name descname"><span class="pre">exec_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;echo</span> <span class="pre">'Hi</span> <span class="pre">there,</span> <span class="pre">I</span> <span class="pre">am</span> <span class="pre">an</span> <span class="pre">echo</span> <span class="pre">being</span> <span class="pre">executed</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">container</span> <span class="pre">you</span> <span class="pre">have</span> <span class="pre">chosen.</span> <span class="pre">Please</span> <span class="pre">use</span> <span class="pre">[--cmd=EXEC_COMMAND]</span> <span class="pre">to</span> <span class="pre">specify</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">you</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">run'&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'movai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ExecResult</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.exec_run" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper over exec_run API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> – Command to be executed.</p></li>
+<li><p><strong>user</strong> – User to execute command as. Default: movai</p></li>
+<li><p><strong>environment</strong> – A dictionary or a list of strings in the following format
+<code class="docutils literal notranslate"><span class="pre">[&quot;PASSWORD=xxx&quot;]</span></code> or <code class="docutils literal notranslate"><span class="pre">{&quot;PASSWORD&quot;:</span> <span class="pre">&quot;xxx&quot;}</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple of (exit_code, output)</dt><dd><dl class="simple">
+<dt>exit_code: (int):</dt><dd><p>Exit code for the executed command or <code class="docutils literal notranslate"><span class="pre">None</span></code> if
+either <code class="docutils literal notranslate"><span class="pre">stream</span></code> or <code class="docutils literal notranslate"><span class="pre">socket</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt>output: (generator, bytes, or tuple):</dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">stream=True</span></code>, a generator yielding response chunks.
+If <code class="docutils literal notranslate"><span class="pre">socket=True</span></code>, a socket object for the connection.
+If <code class="docutils literal notranslate"><span class="pre">demux=True</span></code>, a tuple of two bytes: stdout and stderr.
+A bytestring containing response data otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_archive">
+<span class="sig-name descname"><span class="pre">get_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_archive" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper over get_archive API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to the file or folder to retrieve.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>First element is a raw tar data stream. Second element is
+a dict containing <code class="docutils literal notranslate"><span class="pre">stat</span></code> information on the specified <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_gateway">
+<span class="sig-name descname"><span class="pre">get_gateway</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_gateway" title="Permalink to this definition"></a></dt>
+<dd><p>Get gateway of the first network of a container found using regex of the name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The gateway of the container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_id">
+<span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_id" title="Permalink to this definition"></a></dt>
+<dd><p>Get short id of a container found using regex of the name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Short ID of the container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_ip">
+<span class="sig-name descname"><span class="pre">get_ip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_ip" title="Permalink to this definition"></a></dt>
+<dd><p>Return a container ip given a regex string to compare against the name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The IP of the container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_name" title="Permalink to this definition"></a></dt>
+<dd><p>Get the name of a container found using regex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the container.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.get_userspace_dir">
+<span class="sig-name descname"><span class="pre">get_userspace_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.get_userspace_dir" title="Permalink to this definition"></a></dt>
+<dd><p>Return userspace that is mounted in the container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The userspace directory path in the host.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.logs">
+<span class="sig-name descname"><span class="pre">logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">follow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.logs" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper over logs API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tail</strong> – Output specified number of lines at the end of logs.
+Either an integer of number of lines or the string <code class="docutils literal notranslate"><span class="pre">all</span></code>.
+Defaults to``100``.</p></li>
+<li><p><strong>follow</strong> – Follow log output. Default <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>stream</strong> – Stream the response. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Find better alternatice for while loop to print logs.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.put_archive">
+<span class="sig-name descname"><span class="pre">put_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.put_archive" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper over put_archive API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – Path inside the container where the file(s) will be
+extracted. Must exist.</p></li>
+<li><p><strong>data</strong> – tar data to be extracted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The return value. True for success, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.container_tools.ContainerTools.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#movai_developer_tools.utils.container_tools.ContainerTools.restart" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper over restart API.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-movai_developer_tools.utils.logger">
+<span id="movai-developer-tools-utils-logger-module"></span><h2>movai_developer_tools.utils.logger module<a class="headerlink" href="#module-movai_developer_tools.utils.logger" title="Permalink to this heading"></a></h2>
+<p>Module that contains a wrapper logger to ease interacting with the python logging module</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.debug">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">debug</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.debug" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the debug method from logging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.error">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.error" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the error method from logging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.exception">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.exception" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the exception method from logging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.info">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.info" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the info method from logging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.log">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.log" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the log method from logging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="movai_developer_tools.utils.logger.warning">
+<span class="sig-prename descclassname"><span class="pre">movai_developer_tools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#movai_developer_tools.utils.logger.warning" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapping the warning method from logging.</p>
+</dd></dl>
+
+</section>
+<section id="module-movai_developer_tools.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-movai_developer_tools.utils" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="movai_developer_tools.movros.expose_network.html" class="btn btn-neutral float-left" title="movai_developer_tools.movros.expose_network package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Mithun Kinarullathil.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

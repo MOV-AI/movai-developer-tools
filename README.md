@@ -50,7 +50,7 @@ Simply execute the following:
 ### Auto generate API documentation
 
 * Change directory to the docs folder
-`cd docs/`
+`cd sphinx-docs/`
 * Run the build script
 `./build.sh`
 * Open the index.html file
