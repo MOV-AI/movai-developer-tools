@@ -9,7 +9,7 @@ def mock_add_expected_arguments(parser):
 
 
 argeparse_executor_movros_expose_network_cmd = argparse.Namespace(
-    command="expose-network", workspace="DUMMY_PATH"
+    command="expose-network"
 )
 
 # argeparse_extra_arg = argparse.Namespace(
