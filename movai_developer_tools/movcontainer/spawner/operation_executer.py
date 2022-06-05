@@ -17,6 +17,26 @@ class Spawner(ContainerTools):
         # Reg expression for finding the spawner container
         self.regex_container_name = "^spawner-.*"
 
+    def get_ip(self) -> None:
+        """Print container ip."""
+        logger.info(f"IPAddress: {self.ip()}")
+
+    def get_id(self) -> None:
+        """Print container short id."""
+        logger.info(f"Short ID: {self.id()}")
+
+    def get_name(self) -> None:
+        """Print container name."""
+        logger.info(f"Name: {self.name()}")
+
+    def get_gateway(self) -> None:
+        """Print container gateway."""
+        logger.info(f"Gateway: {self.gateway()}")
+
+    def get_userspace_dir(self) -> None:
+        """Print container userspace directory."""
+        logger.info(f"Userspace directory: {self.userspace_dir()}")
+
     def execute(self, args: Namespace) -> None:
         """Execute the spawner behaviour. The sub_commad argument is used to execute respective method.
 
@@ -24,8 +44,8 @@ class Spawner(ContainerTools):
             args: A set of parsed args.
 
         """
-        # Instanciate for silent operation if silent arg is True
-        super().__init__(self.regex_container_name, silent=args.silent)
+        # Instanciate ContainerTools
+        super().__init__(self.regex_container_name)
 
         # Map sub command to the method
         prop_to_method = {
@@ -61,11 +81,6 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Main class to fetch properties of the active spawner container"
-    )
-    parser.add_argument(
-        "--silent",
-        help="Silence the output of commands. Used when commands are used internally to silence the output",
-        action="store_true",
     )
     parser.add_argument(
         "sub_command",

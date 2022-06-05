@@ -41,13 +41,12 @@ class BackupHelper:
         # Manifest regex
         self.manifest_regex = manifest_regex
 
-        # Instanciate spawner container class
         # Reg expressions for finding the spawner container
         regex_spawner_name = "^spawner-.*"
-        # Instanciate for silent operation if silent arg is True, else take default
-        self.spawner_cls = ContainerTools(regex_spawner_name, silent=True)
+        # Instanciate spawner container class
+        self.spawner_cls = ContainerTools(regex_spawner_name)
         # Get userspace directory
-        self.userspace_dir = self.spawner_cls.get_userspace_dir()
+        self.userspace_dir = self.spawner_cls.userspace_dir()
         # Set of accepted commands
         self.valid_commands = {"import", "export", "remove", "re-install"}
         # Dry run parameter
