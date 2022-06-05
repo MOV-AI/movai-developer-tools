@@ -22,15 +22,9 @@ def handle():
         "command",
         help=f"Command to be executed. Options are ({', '.join(executors.keys())})",
     )
-    # Silent optional argument for when using the commands internally from other commands
-    parser.add_argument(
-        "--silent",
-        help="Silence the output of commands. Used when commands are used internally to silence the output",
-        action="store_true",
-    )
     parser.add_argument(
         "sub_command",
-        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, logs)",
     )
 
     # executor arguments

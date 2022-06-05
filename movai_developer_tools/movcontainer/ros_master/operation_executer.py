@@ -18,6 +18,26 @@ class RosMaster(ContainerTools):
         # Reg expressions for finding the ros-master container
         self.regex_container_name = "^ros-master-*"
 
+    def get_ip(self) -> None:
+        """Print container ip."""
+        logger.info(f"IPAddress: {self.ip()}")
+
+    def get_id(self) -> None:
+        """Print container short id."""
+        logger.info(f"Short ID: {self.id()}")
+
+    def get_name(self) -> None:
+        """Print container name."""
+        logger.info(f"Name: {self.name()}")
+
+    def get_gateway(self) -> None:
+        """Print container gateway."""
+        logger.info(f"Gateway: {self.gateway()}")
+
+    def get_userspace_dir(self) -> None:
+        """Print container userspace directory."""
+        logger.info(f"Userspace directory: {self.userspace_dir()}")
+
     def execute(self, args: Namespace) -> None:
         """Execute the ros-master behaviour. The sub_commad argument is used to execute respective method.
 
@@ -25,8 +45,8 @@ class RosMaster(ContainerTools):
             args: A set of parsed args.
 
         """
-        # Instanciate for silent operation if silent arg is True
-        super().__init__(self.regex_container_name, silent=args.silent)
+        # Instanciate ContainerTools
+        super().__init__(self.regex_container_name)
 
         # Map sub command to the method
         prop_to_method = {
@@ -64,13 +84,8 @@ if __name__ == "__main__":
         description="Main class to fetch properties of the active ros-master container"
     )
     parser.add_argument(
-        "--silent",
-        help="Silence the output of commands. Used when commands are used internally to silence the output",
-        action="store_true",
-    )
-    parser.add_argument(
         "sub_command",
-        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, exec, logs)",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, logs)",
     )
     args = parser.parse_args()
     spawner = RosMaster()
