@@ -4,9 +4,7 @@ from movai_developer_tools.movros.handler import handle as movros_handle
 import argparse
 
 
-argeparse_executor_movros_expose_network_cmd = argparse.Namespace(
-    command="does-not-exist"
-)
+movros_handle_bad_argument = argparse.Namespace(command="does-not-exist")
 
 
 class TestHandler(unittest.TestCase):
@@ -17,9 +15,9 @@ class TestHandler(unittest.TestCase):
     )
     @mock.patch(
         "argparse.ArgumentParser.parse_args",
-        return_value=argeparse_executor_movros_expose_network_cmd,
+        return_value=movros_handle_bad_argument,
     )
-    def test_movros_handler_executer_forward(self, mock_argparse, mock_run_executor):
+    def test_movros_handler_bad_argument(self, mock_argparse, mock_run_executor):
         with self.assertRaises(SystemExit) as se:
             movros_handle()
         self.assertEqual(se.exception.code, 1)
