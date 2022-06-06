@@ -43,7 +43,7 @@ def handle():
             + " ".join(map(str, executors))
             + ")"
         )
-        sys.exit()
+        sys.exit(1)
 
     executor.execute(args)
 
