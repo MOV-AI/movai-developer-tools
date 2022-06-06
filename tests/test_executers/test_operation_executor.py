@@ -1,22 +1,18 @@
 import unittest
-import mock
 from movai_developer_tools.movros.expose_network.operation_executer import (
     ExposeNetwork,
 )
-import argparse
 
 
-argeparse_extra_arg = argparse.Namespace(
-    command="command_operation", workspace="DUMMY_PATH", dummy_arg="test"
-)
-
-
-# TODO adapt the test of your own executor
 class TestOperationExecutor(unittest.TestCase):
-    @mock.patch(
-        "argparse.ArgumentParser.parse_args",
-        return_value=argparse.Namespace(command="command_operation"),
-    )
-    def test_operation_execute(self, mock):
-        ExposeNetwork().execute(argeparse_extra_arg)
-        print("TODO")
+    """Test opertation executors."""
+
+    def test_operation_expose_network(self):
+        """Test execution of expose-network command.
+
+        If the test succeeds it will catch the system exit at
+        movai_developer_tools.utils.container_tools.ContainerTools.
+        """
+        with self.assertRaises(SystemExit) as se:
+            ExposeNetwork().execute()
+        self.assertEqual(se.exception.code, 1)
