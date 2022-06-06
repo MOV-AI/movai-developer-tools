@@ -13,12 +13,10 @@ class ContainerTools:
     Args:
         regex: The regular expression used to find the docker container object by name.
         userspace_bind_dir: The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
-        silent: Supports using methods without printing results to the terminal. Defaults to ``False``
 
     Attributes:
         userspace_bind_dir (str): The directory where the userspace is mounted. Defaults to ``"/opt/mov.ai/user"``.
         container (Container): The container object found using the regular expression.
-        silent (bool): Supports using methods without printing results to the terminal. Defaults to ``False``
 
     """
 
@@ -26,7 +24,6 @@ class ContainerTools:
         self,
         regex: str,
         userspace_bind_dir: str = "/opt/mov.ai/user",
-        silent: bool = False,
     ) -> None:
         # Container userspace bind location
         self.userspace_bind_dir = userspace_bind_dir
@@ -42,10 +39,7 @@ class ContainerTools:
             )
             sys.exit(1)
 
-        # Make silent attribute
-        self.silent = silent
-
-    def get_ip(self) -> str:
+    def ip(self) -> str:
         """Return a container ip given a regex string to compare against the name.
 
         Returns:
@@ -55,38 +49,27 @@ class ContainerTools:
         networks = self.container.attrs["NetworkSettings"]["Networks"]
         network = next(iter(networks))
         ip = networks[network]["IPAddress"]
-        # Log if not silent
-        if not self.silent:
-            logger.info(f"IPAddress: {ip}")
         return ip
 
-    def get_id(self) -> str:
+    def id(self) -> str:
         """Get short id of a container found using regex of the name.
 
         Returns:
             Short ID of the container.
 
         """
-        short_id = self.container.short_id
-        # Log if not silent
-        if not self.silent:
-            logger.info(f"Short ID: {short_id}")
-        return short_id
+        return self.container.short_id
 
-    def get_name(self) -> str:
+    def name(self) -> str:
         """Get the name of a container found using regex.
 
         Returns:
             The name of the container.
 
         """
-        name = self.container.name
-        # Log if not silent
-        if not self.silent:
-            logger.info(f"Name: {name}")
-        return name
+        return self.container.name
 
-    def get_gateway(self) -> str:
+    def gateway(self) -> str:
         """Get gateway of the first network of a container found using regex of the name.
 
         Returns:
@@ -96,13 +79,10 @@ class ContainerTools:
         networks = self.container.attrs["NetworkSettings"]["Networks"]
         network = next(iter(networks))
         gateway = networks[network]["Gateway"]
-        # Log if not silent
-        if not self.silent:
-            logger.info(f"Gateway: {gateway}")
         return gateway
 
     def get_archive(self, path: str) -> tuple:
-        """Wrapper over get_archive API.
+        """Wrapper over archive API.
 
         Args:
             path: Path to the file or folder to retrieve.
@@ -132,7 +112,7 @@ class ContainerTools:
         """Wrapper over restart API."""
         self.container.restart()
 
-    def get_userspace_dir(self) -> str:
+    def userspace_dir(self) -> str:
         """Return userspace that is mounted in the container.
 
         Returns:
@@ -146,9 +126,6 @@ class ContainerTools:
             _split = bind.split(":")
             if _split[1] == self.userspace_bind_dir:
                 userspace_dir = _split[0]
-                # Log if not silent
-                if not self.silent:
-                    logger.info(f"Userspace directory: {userspace_dir}")
                 return userspace_dir
 
         # Exit if userspace is not found
@@ -219,10 +196,6 @@ class ContainerTools:
             user=user,
             environment=environment,
         )
-        # Log if not silent
-        if not self.silent:
-            # Log output. Decode for pretty print
-            print(f"{exec_result.output.decode()}")
         return exec_result
 
 
@@ -230,10 +203,10 @@ if __name__ == "__main__":
     # Regular expression against name to find the container
     regex = "^spawner-.*"
     logger.info(
-        "Executing get_ip, get_id, get_name and get_gateway methods of the ContainerTools with regex: {regex}"
+        f"Executing ip, id, name and gateway methods of the ContainerTools with regex: {regex}"
     )
     container_tools = ContainerTools(regex)
-    container_tools.get_ip()
-    container_tools.get_id()
-    container_tools.get_name()
-    container_tools.get_gateway()
+    print(container_tools.ip())
+    print(container_tools.id())
+    print(container_tools.name())
+    print(container_tools.gateway())
