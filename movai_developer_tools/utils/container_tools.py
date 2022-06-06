@@ -81,7 +81,7 @@ class ContainerTools:
         gateway = networks[network]["Gateway"]
         return gateway
 
-    def archive(self, path: str) -> tuple:
+    def get_archive(self, path: str) -> tuple:
         """Wrapper over archive API.
 
         Args:
@@ -92,7 +92,7 @@ class ContainerTools:
             a dict containing ``stat`` information on the specified ``path``.
 
         """
-        return self.container.archive(path)
+        return self.container.get_archive(path)
 
     def put_archive(self, path: str, data: bytes) -> bool:
         """Wrapper over put_archive API.
