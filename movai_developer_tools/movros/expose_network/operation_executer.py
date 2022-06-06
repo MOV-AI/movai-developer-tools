@@ -46,17 +46,15 @@ class ExposeNetwork:
         # Temporary place to store the tar file
         self.temp_bashrc_tar = "/tmp/bashrc.tar"
 
-        # Instanciate spawner container class
         # Reg expressions for finding the spawner container
         regex_spawner_name = "^spawner-.*"
-        # Instanciate for silent operation if silent arg is True, else take default
-        self.spawner = ContainerTools(regex_spawner_name, silent=True)
+        # Instanciate spawner container class
+        self.spawner = ContainerTools(regex_spawner_name)
 
-        # Instanciate ros-master container class
         # Reg expressions for finding the ros-master container
         regex_ros_master_name = "^ros-master-.*"
-        # Instanciate for silent operation if silent arg is True, else take default
-        self.ros_master = ContainerTools(regex_ros_master_name, silent=True)
+        # Instanciate ros-master container class
+        self.ros_master = ContainerTools(regex_ros_master_name)
 
         # ROS distro in host
         self.ros_distro = None
@@ -167,12 +165,12 @@ class ExposeNetwork:
     def execute(self) -> None:
         """Execute the expose-network behaviour."""
         # Get spawner name
-        spawner_name = self.spawner.get_name()
+        spawner_name = self.spawner.name()
         # Get ip of the spawner and ros-master containers
-        spawner_ip = self.spawner.get_ip()
-        ros_master_ip = self.ros_master.get_ip()
+        spawner_ip = self.spawner.ip()
+        ros_master_ip = self.ros_master.ip()
         # Get gateway of the spawner container network
-        spawner_gateway = self.spawner.get_gateway()
+        spawner_gateway = self.spawner.gateway()
 
         # Validate ROS host installation
         self.validate_ros_installation()

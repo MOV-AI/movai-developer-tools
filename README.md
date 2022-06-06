@@ -23,7 +23,7 @@ Simply execute the following:
   * `import` - Imports the metadata specified in the found manifest.txt
   * `export` - Exports the metadata specified in the found manifest.txt
   * `remove` - Removes the metadata specified in the found manifest.txt
-  * `export` - Imports all the metadata from installed packages in the spawner container
+  * `re-install` - Imports all the metadata from installed packages in the spawner container
   * `--directory` - Directory to search manifests, defaults to CWD
   * `--dry-run` - Dry run any command without modifiying any files
 
@@ -41,10 +41,6 @@ Simply execute the following:
     * `gateway` - Prints Host virtual IP in the docker network
     * `userspace-dir` - Prints running spawner host userspace directory
     * `logs` - Shows the running spawner logs
-    * `exec` - Executes a bash command inside the running spawner container
-      * `--cmd` - Command that is going to be executed
-      * `--user` - User to execute docker exec command as. (Default: movai)
-      * `--env` - A dictionary or a list of strings in the following format 'PASSWORD=xxx' 'USER=xxx'
 
 ## Sphinx Documentation
 ### Auto generate API documentation
