@@ -1,5 +1,7 @@
+[![pages-build-deployment](https://github.com/MOV-AI/movai-developer-tools/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/MOV-AI/movai-developer-tools/actions/workflows/pages/pages-build-deployment)
+
 # MOV.AI developer tools
-Scripts to facilitate development when using MOV.AI.
+A python package build to facilitate development when using MOV.AI.
 
 ## Motivation
 During development we need to perform tasks that in some cases involve executing long commands.
@@ -47,3 +49,6 @@ Simply execute the following:
     * `gateway` - Prints Host virtual IP in the docker network
     * `userspace-dir` - Prints the mounted userspace directory
     * `logs` - Shows container logs
+
+## Full documentation
+Full documentation of this python package is hosted at https://mov-ai.github.io/movai-developer-tools/
