@@ -14,7 +14,7 @@ When they do, if you find reasonable, please open a PR or an issue.
 
 ## Installation
 Simply execute the following:
-`python3 -m pip install -i https://artifacts.cloud.mov.ai/repository/pypi-edge/simple --extra-index-url https://pypi.org/simple movai-developer-tools`
+`python3 -m pip install -i https://artifacts.cloud.mov.ai/repository/pypi-integration/simple --extra-index-url https://pypi.org/simple movai-developer-tools`
 
 
 ## Features
@@ -34,10 +34,16 @@ Simply execute the following:
 ### MOV.AI application container tools
 * `movcontainer` - MOV.AI containers related functions
   * `spawner` - Spawner container related functions
+    * `ip` - Prints IP of the container
+    * `id` - Prints short ID of the container
+    * `name` - Prints name of the container
+    * `gateway` - Prints Host virtual IP in the docker network
+    * `userspace-dir` - Prints the mounted userspace directory
+    * `logs` - Shows container logs
   * `ros-master` - ROS master container related functions
     * `ip` - Prints IP of the container
     * `id` - Prints short ID of the container
     * `name` - Prints name of the container
     * `gateway` - Prints Host virtual IP in the docker network
-    * `userspace-dir` - Prints running spawner host userspace directory
-    * `logs` - Shows the running spawner logs
+    * `userspace-dir` - Prints the mounted userspace directory
+    * `logs` - Shows container logs
