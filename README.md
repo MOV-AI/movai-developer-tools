@@ -9,15 +9,9 @@ The scripts in this repository try to shorten those commands thus making develop
 Besides that, we are also avoiding to have to enter the spawner container to perform tasks.
 That is done by exposing the more frequent commands on the host.
 
-## Disclaimer
-These scripts where development based on a series of specific needs and assumptions.
-Different usecases will break the scripts.
-When they do, if you find reasonable, please open a PR or an issue.
-
 ## Installation
 Simply execute the following:
 `python3 -m pip install -i https://artifacts.cloud.mov.ai/repository/pypi-integration/simple --extra-index-url https://pypi.org/simple movai-developer-tools`
-
 
 ## Features
 ### MOV.AI object backup tools
