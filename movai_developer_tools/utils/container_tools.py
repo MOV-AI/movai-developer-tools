@@ -200,13 +200,52 @@ class ContainerTools:
 
 
 if __name__ == "__main__":
-    # Regular expression against name to find the container
-    regex = "^spawner-.*"
-    logger.info(
-        f"Executing ip, id, name and gateway methods of the ContainerTools with regex: {regex}"
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="This component helps to retrieve docker container information developing with MOV.AI."
     )
-    container_tools = ContainerTools(regex)
-    print(container_tools.ip())
-    print(container_tools.id())
-    print(container_tools.name())
-    print(container_tools.gateway())
+    parser.add_argument(
+        "--name-regex",
+        help="Container name search regex",
+        default=None,
+    )
+    parser.add_argument(
+        "--sub-command",
+        help="Property of the component to be fetched, options are (ip, id, name, gateway, userspace-dir, logs)",
+        default=None,
+    )
+
+    args = parser.parse_args()
+
+    if args.name_regex is None:
+        logger.info(
+            "Using default value of the regex (^spawner-.*) to find the container"
+        )
+        container_tools = ContainerTools("^spawner-.*")
+    else:
+        container_tools = ContainerTools(args.name_regex)
+
+    valid_sub_commands = ["ip", "id", "name", "userspace-dir", "gateway", "restart"]
+    # If no specific command is given
+    if args.sub_command is None:
+        logger.info(
+            f"No sub-command given, Executing ip, id, name, userspace-dir and gateway methods of the {container_tools.name()} container"
+        )
+        print(container_tools.ip())
+        print(container_tools.id())
+        print(container_tools.name())
+        print(container_tools.userspace_dir())
+        print(container_tools.gateway())
+    elif args.sub_command in valid_sub_commands:
+        arg_to_method = {
+            "ip": container_tools.ip,
+            "id": container_tools.id,
+            "name": container_tools.name,
+            "userspace-dir": container_tools.userspace_dir,
+            "gateway": container_tools.gateway,
+            "restart": container_tools.restart,
+        }
+        print(arg_to_method[args.sub_command]())
+    else:
+        logger.error(f"Invalid sub-command, valid values are: {valid_sub_commands}")
